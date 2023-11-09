@@ -28,13 +28,15 @@
 
                 <ul class="navbar-nav ml-auto">
 
-                <?php if(session()->get('user_type') == 'client') { ?>
+               
 
                     <li class="nav-item dropdown">
                         <a class="nav-link text-white" data-toggle="dropdown" href="#">
                             <i class="fas fa-th-large"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+
+                        <?php if(session()->get('user_type') == 'client') { ?>
                            
                             <div class="dropdown-divider"></div>
 
@@ -64,10 +66,32 @@
 
                             <div class="dropdown-divider"></div>
                             <a href="#" class="dropdown-item dropdown-footer" data-toggle="modal" data-target="#modal-logout">Logout</a>
+
+                            <?php } else { ?>
+
+                            <div class="dropdown-divider"></div>
+
+                            <a href="#" class="dropdown-item">
+                                <i class="fa-regular fa-file mr-2"  aria-hidden="true"></i> Privacy Policy                              
+                            </a>                          
+
+                            <div class="dropdown-divider"></div>
+
+                            <a href="#" class="dropdown-item">
+                                 <i class="fa-regular fa-file mr-2"  aria-hidden="true"></i>Return &amp; Refund  
+                            </a>
+
+                            <div class="dropdown-divider"></div>
+                            <a href="<?= base_url('login/client') ?>" class="dropdown-item dropdown-footer" >Login</a>
+                                
+                            
+                            <?php }?>
+
+
                         </div>
                     </li>
 
-                    <?php } ?>
+                    
                 </ul>
             </div>
         </nav>
