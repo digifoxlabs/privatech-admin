@@ -4,6 +4,16 @@
    <section class="content">
    <?php  $session = session(); ?>
 
+    <script type="text/javascript">
+    <?php if($session->getFlashdata('success')): ?>
+    toastr.success('<?php echo $session->getFlashdata('success'); ?>')
+    <?php elseif($session->getFlashdata('error')): ?>
+    toastr.warning('<?php  foreach($session->getFlashdata('error') as $key => $value) {
+        echo "$key: $value"."</br>";
+      }  ?>');
+    <?php endif; ?>
+    </script>
+
         <div class="card mt-3">
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Login</p>
@@ -47,7 +57,6 @@
 
    
                 </form>
-
 
                 <div class="social-auth-links text-center mb-2">
                     <a href="<?= base_url('/') ?>" class="btn btn-primary btn-sm">Cancel</a>

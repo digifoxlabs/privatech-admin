@@ -6,13 +6,12 @@
 
         <div class="card mt-3">
             <div class="card-body register-card-body">
-                <p class="login-box-msg">Login using</p>
+                <p class="login-box-msg">OTP Login using</p>
 
                 <span class="text-info text-center"><p><?= $session->getTempdata('user_input'); ?></p></span>
 
 
-
-                <form action="<?= base_url('/loginClient') ?>" method="post">
+                <form action="<?= base_url('/loginClientOTP') ?>" method="post">
 
                 <span class="text-danger mb-1"><?= validation_show_error('user_id') ?></span>
 
@@ -26,9 +25,9 @@
                     </div>
               
                     
-                    <span class="text-danger mb-1"><?= validation_show_error('password') ?></span>
+                    <span class="text-danger mb-1"><?= validation_show_error('otp') ?></span>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="password"  placeholder="Password">
+                        <input type="text" class="form-control" name="otp"  placeholder="OTP">
                         <div class="input-group-append">
                             <div class="input-group-text">
                             <span class="fas fa-lock"></span>
@@ -47,12 +46,9 @@
                     </div>
                     <!-- /.col -->
                 </div>
+
    
                 </form>
-
-                <p class="mb-1">
-                      <a href= "<?= base_url('resetPassword') ?>" class="text-center">I forgot my password</a>
-                </p>
 
 
                 <div class="social-auth-links text-center mb-2">

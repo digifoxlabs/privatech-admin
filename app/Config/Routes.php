@@ -19,8 +19,11 @@ $routes->get('/login/password', 'Frontend\ClientAuthenticate::passwordLogin');
 $routes->get('/login/otp', 'Frontend\ClientAuthenticate::otpLogin');
 
 $routes->match(['get', 'post'],'/register', 'Frontend\HomeController::register');
+$routes->match(['get', 'post'],'/resetPassword', 'Frontend\HomeController::resetPassword');
+$routes->match(['get', 'post'],'/setNewPassword', 'Frontend\HomeController::setNewPassword');
 
 $routes->post('/loginClient', 'Frontend\ClientAuthenticate::authPassword');
+$routes->post('/loginClientOTP', 'Frontend\ClientAuthenticate::authOTP');
 $routes->match(['get', 'post'],'/login/client', 'Frontend\ClientAuthenticate::defaultClientLogin');
 
 

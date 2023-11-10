@@ -5,6 +5,8 @@ namespace App\Controllers\Frontend;
 use App\Controllers\FrontendController;
 // Load Model
 use App\Models\UserModel;
+use App\Models\OTPModel;
+
 
 class ClientAuthenticate extends FrontendController
 {
@@ -14,6 +16,7 @@ class ClientAuthenticate extends FrontendController
         parent::__construct();
         $this->db = db_connect();
 
+
     }
 
 
@@ -21,13 +24,13 @@ class ClientAuthenticate extends FrontendController
 
         if ($this->request->getMethod() == 'post') {
 
-            $userInput = $this->request->getvar('user_id');
+            $userInput = strtolower($this->request->getvar('user_id'));
 
             //Chek if input is number go for mobile login
             if(is_numeric($userInput)){
 
                 $rules = [
-                    'user_id' => 'required|min_length[10]|max_length[10]|is_natural',
+                    'user_id' => 'trim|required|min_length[10]|max_length[10]|is_natural',
                 ];
 
                 $errors = [
@@ -43,7 +46,7 @@ class ClientAuthenticate extends FrontendController
             else {
 
                 $rules = [
-                    'user_id' => 'required|trim|valid_email', 
+                    'user_id' => 'required|trim|valid_email|strtolower', 
                 ];
 
                 $errors = [
@@ -151,7 +154,7 @@ class ClientAuthenticate extends FrontendController
 
         if ($this->request->getMethod() == 'post') {
 
-            $userInput = $this->request->getvar('user_id');
+            $userInput = strtolower($this->request->getvar('user_id'));
 
             //Chek if input is number go for mobile login
             if(is_numeric($userInput)){
@@ -195,9 +198,14 @@ class ClientAuthenticate extends FrontendController
 
             if (!$this->validate($rules, $errors)) {
 
-                return view('Frontend/pages/login_password', [
-                    "validation" => $this->validator,'pageTitle' => 'Login',
-                ]);
+                // return view('Frontend/pages/login_password', [
+                //     "validation" => $this->validator,'pageTitle' => 'Login',
+                // ]);
+
+                $data['validation'] = $this->validator;   
+                $this->render_view('Frontend/pages/login_password',$data);     
+
+
             } else {  //ELse No error proceed login
                 
                 $model = new UserModel();
@@ -251,6 +259,169 @@ class ClientAuthenticate extends FrontendController
     public function otpLogin(){
 
 
+        $session = session();
+        if($session->getTempdata('user_input')){
+
+            $userInput = $session->getTempdata('user_input');
+
+            //Generate OTP
+            $tempOTP = random_string('numeric', 6);     
+         
+            $model = new OtpModel(); 
+
+            //Sent OTP to mobile no
+            if(is_numeric($userInput)){
+
+                $data = [
+                    'otp'=> $tempOTP,
+                    'isexpired' =>1,
+                    'mobile' => $userInput,
+                ];
+            //Save OTP in DB
+            $model->save($data);
+
+
+            $message = $tempOTP.' is the OTP to login at RTS. Valid for 1 min only. RTS LLP';
+            //Send OTP
+            $this->sendOTP($userInput,$message);
+
+            
+            }
+            else { //send OTP to email id
+
+                $data = [
+                    'otp'=> $tempOTP,
+                    'isexpired' =>1,
+                    'email' => $userInput,
+                ];
+            //Save OTP in DB
+            $model->save($data);
+            //Send Email Otp
+            $this->sendEmailOtp($userInput, $tempOTP);
+
+            }
+
+            $data = array( 
+                'pageTitle' => 'PRIVATECH-LOGIN'                                         
+            );      
+                
+                $this->render_view('Frontend/pages/login_otp',$data); 
+        }
+
+        else {
+
+            return redirect()->to(base_url(''));
+        }
+
+    }
+
+
+    //Authenticate Client for OTP login
+    public function authOTP(){
+
+        $data = array( 
+            'pageTitle' => 'PRIVATECH-LOGIN'                                         
+        ); 
+
+        if ($this->request->getMethod() == 'post') {
+
+
+
+            $userInput = strtolower($this->request->getvar('user_id'));
+
+            //Chek if input is number go for mobile login
+            if(is_numeric($userInput)){
+
+                  $rules = [
+                    'user_id' => 'required|min_length[10]|max_length[10]|is_natural',
+                    'otp' => 'required|validateMobilewithOTP[user_id,password]',
+                ];
+
+                $errors = [
+
+                    'user_id'=>[
+                        'min_length'=> "Enter 10 digit Mobile no.",
+                        'max_length'=> "Enter 10 digit Mobile no.",
+                    ],
+                    'otp' => [
+                        'validateMobilewithOTP' => "Credentials do not match",
+                    ],
+                ];
+
+            }
+            else { // go for email login
+
+                $rules = [
+                    'user_id' => 'required|min_length[3]|max_length[50]|valid_email',
+                    'otp' => 'required|validateEmailwithOTP[user_id,password]',
+                ];
+
+                $errors = [
+
+                    'user_id'=>[
+                        'valid_email'=> "Enter Valid Email"
+                    ],
+                    'otp' => [
+                        'validateEmailwithOTP' => "Credentials do not match",
+                    ],
+                ];
+
+            }
+
+
+            if (!$this->validate($rules, $errors)) {
+
+                // return view('Frontend/pages/login_password', [
+                //     "validation" => $this->validator,'pageTitle' => 'Login',
+                // ]);
+
+                $data['validation'] = $this->validator;   
+                $this->render_view('Frontend/pages/login_otp',$data);     
+
+
+            } else {  //ELse No error proceed login
+                
+                $model = new UserModel();
+               // $array = array('email' => $this->request->getVar('email'), 'status'=> 1);
+
+               if(is_numeric($userInput)){  //Mobile Login
+
+                    $user = $model->where('mobile', $userInput)
+                    ->where('status', '1')
+                    ->where('u_id !=' , '1')
+                    ->first();
+               }
+               else {   //Email Login
+   
+                $user = $model->where('email', $userInput)
+                                ->where('status', '1')
+                                ->where('u_id !=' , '1')
+                                ->first();
+               }
+
+                // Storing session values
+
+                if($user){
+
+                    $this->setUserSession($user);
+                    // Redirecting to dashboard after login
+                    return redirect()->to(base_url('dashboard'));
+
+                }
+
+                else {
+
+                    return redirect()->to(base_url('login/client'));
+                }
+              
+            }
+
+        }
+        else {
+
+            return redirect()->to(base_url(''));
+
+        }
 
     }
 
@@ -259,13 +430,14 @@ class ClientAuthenticate extends FrontendController
     public  function defaultClientLogin(){
 
 
+
         $data = array( 
             'pageTitle' => 'PRIVATECH-LOGIN'                                         
         ); 
 
         if ($this->request->getMethod() == 'post') {
 
-            $userInput = $this->request->getvar('user_id');
+            $userInput = strtolower($this->request->getvar('user_id'));
 
             //Chek if input is number go for mobile login
             if(is_numeric($userInput)){
