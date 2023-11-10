@@ -27,7 +27,7 @@
 
         <h5 class="lead mb-2">Clients</h5>
         <div class="row">
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-success"><i class="fa fa-users"></i></span>
 
@@ -40,7 +40,7 @@
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-warning"><i class="fa fa-users"></i></span>
 
@@ -53,7 +53,7 @@
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-danger"><i class="fa fa-users"></i></span>
 
@@ -66,7 +66,7 @@
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-info"><i class="fa fa-users"></i></span>
 
@@ -85,7 +85,7 @@
 
         <h5 class="lead mt-4 mb-2">Dealers</h5>
         <div class="row">
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-info"><i class="fa-solid fa-sitemap"></i></span>
 
@@ -98,7 +98,7 @@
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-success"><i class="fa-solid fa-sitemap"></i></span>
 
@@ -111,7 +111,7 @@
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-warning"><i class="fa-solid fa-sitemap"></i></span>
 
@@ -125,7 +125,7 @@
             </div>
             <!-- /.col -->
 
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-secondary"><i class="fa-solid fa-sitemap"></i></span>
 
@@ -144,7 +144,7 @@
 
         <h5 class="lead mt-4 mb-2">Subscriptions</h5>
         <div class="row">
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-info"><i class="fa-solid fa-receipt"></i></span>
 
@@ -157,7 +157,7 @@
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-success"><i class="fa-solid fa-layer-group"></i></span>
 
@@ -170,7 +170,7 @@
                 <!-- /.info-box -->
             </div>
             <!-- /.col -->
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-primary"><i class="fa fa-ticket-alt"></i></span>
 
@@ -184,7 +184,7 @@
             </div>
             <!-- /.col -->
 
-            <div class="col-md-3 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-6">
                 <div class="info-box">
                     <span class="info-box-icon bg-secondary"><i class="fas fa-tag"></i></span>
 

@@ -71,7 +71,7 @@
 
                             <div class="dropdown-divider"></div>
 
-                            <a href="#" class="dropdown-item">
+                            <a href="<?= base_url('privacy-policy') ?>" class="dropdown-item">
                                 <i class="fa-regular fa-file mr-2"  aria-hidden="true"></i> Privacy Policy                              
                             </a>                          
 

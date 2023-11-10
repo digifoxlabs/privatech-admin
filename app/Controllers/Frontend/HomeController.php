@@ -180,6 +180,17 @@ class HomeController extends FrontendController
 
     }
 
+    //Privacy Policy
+    public function privacyPolicy(){
+
+        $data = array( 
+            'pageTitle' => 'PRIVATECH-LOGIN'                                         
+        );      
+            
+            $this->render_view('Frontend/pages/privacy-policy.php',$data); 
+
+    }
+
 
     //Reset Password page
     public function resetPassword(){

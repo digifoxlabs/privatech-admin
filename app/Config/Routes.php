@@ -18,6 +18,8 @@ $routes->get('/login', 'Frontend\HomeController::optionforLogin');
 $routes->get('/login/password', 'Frontend\ClientAuthenticate::passwordLogin');
 $routes->get('/login/otp', 'Frontend\ClientAuthenticate::otpLogin');
 
+$routes->get('/privacy-policy', 'Frontend\HomeController::privacyPolicy');
+
 $routes->match(['get', 'post'],'/register', 'Frontend\HomeController::register');
 $routes->match(['get', 'post'],'/resetPassword', 'Frontend\HomeController::resetPassword');
 $routes->match(['get', 'post'],'/setNewPassword', 'Frontend\HomeController::setNewPassword');
