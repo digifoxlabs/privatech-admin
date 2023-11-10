@@ -1,6 +1,6 @@
 <!-- Logout Modal -->
 <div class="modal fade" id="modal-logout">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content bg-danger">
             <div class="modal-header">
               <h4 class="modal-title">Confirm Logout</h4>
@@ -27,7 +27,7 @@
 
 
 <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2019 <a href="#">AdminLTE.io</a>.</strong>
+    <strong>Copyright &copy; 2023-24 <a href="#">PRIVATECH GARDEN LLP</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> 3.0.2

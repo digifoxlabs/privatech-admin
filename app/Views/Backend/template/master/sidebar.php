@@ -35,60 +35,6 @@
             </a>
           </li>
 
-
-          <li class="nav-item has-treeview" id="memberTree">
-            <a href="#" class="nav-link" id="memberMenu">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Members
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="<?= base_url('admin/members/manage'); ?>" class="nav-link" id="memberSubMenuManage">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Manage</p>
-                  <span class="right badge badge-danger">100</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="<?= base_url('admin/members/shares'); ?>" class="nav-link" id="memberSubMenuShare">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Share Values</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Monthly Data</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-
-
-
-          <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Transactions
-                <span class="right badge badge-danger">Users</span>
-              </p>
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a href="pages/widgets.html" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Cash Balance
-              </p>
-            </a>
-          </li>
-
           
 
         </ul>
