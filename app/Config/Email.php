@@ -29,8 +29,8 @@ class Email extends BaseConfig
     /**
      * SMTP Server Address
      */
-    //public string $SMTPHost = 'smtp.googlemail.com';
-    public string $SMTPHost = 'smtp.gmail.com';
+    public string $SMTPHost = 'smtp.googlemail.com';
+    // public string $SMTPHost = 'smtp.gmail.com';
 
     /**
      * SMTP Username
