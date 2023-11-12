@@ -29,7 +29,9 @@ $routes->post('/loginClientOTP', 'Frontend\ClientAuthenticate::authOTP');
 $routes->match(['get', 'post'],'/login/client', 'Frontend\ClientAuthenticate::defaultClientLogin');
 
 
-$routes->get('/dashboard', 'Frontend\HomeController::dashboard');
+$routes->get('/dashboard', 'Frontend\HomeController::dashboard', ['filter' => 'authclient']);
+$routes->match(['get', 'post'],'/dashboard/setNewPassword', 'Frontend\HomeController::setPasswordbyClient', ['filter' => 'authclient']);
+
 $routes->get('/client/logout', 'Frontend\ClientAuthenticate::logout');
 
 //AJAX POSTS

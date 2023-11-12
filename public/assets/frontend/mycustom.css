@@ -67,7 +67,7 @@ input[type=number] {
   }
 
 
-body {
+/* body {
 
     background-image: url("./images/background-webpage.svg")!important;
     background-size: auto;
@@ -75,7 +75,19 @@ body {
     background-attachment: fixed;
     background-position: center;
 
+} */
+
+.wrapper-background{
+
+    background-image: url("./images/background-webpage.svg")!important;
+    background-size: auto;
+    background-attachment: fixed;
+    background-position: center;
+
+
 }
+
+
 .remove-background {
 
     background: transparent!important;

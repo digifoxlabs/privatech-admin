@@ -192,7 +192,7 @@ class HomeController extends FrontendController
     }
 
 
-    //Reset Password page
+    //Reset Password page by Login
     public function resetPassword(){
 
         $session = session();
@@ -250,7 +250,7 @@ class HomeController extends FrontendController
         }
     }
 
-    //Set New Password
+    //Set New Password affer Reset
     public function setNewPassword(){
 
         $data = array( 
@@ -371,10 +371,76 @@ class HomeController extends FrontendController
             return redirect()->to(base_url(''));
 
         }
+    }
 
+
+    //Set New Password from Profile
+    public function setPasswordbyClient(){
+
+        if ($this->request->getMethod() == 'post') {
+
+            $rules = [
+                'password' => 'required|min_length[3]|max_length[255]',
+                'passconf' => 'trim|required|min_length[3]|max_length[255]|matches[password]',  
+            ];
+
+            $errors = [
+                'password'=>[
+                    'required'=> "Password is required",
+                    'min_length'=> 'Minimum 3 digit password'
+                ],        
+                'passconf'=>[
+                    'required'=> "Confirm the password",
+                    'matches'=>'Passwords do not match',
+                ],
+            ];
+
+
+            if (!$this->validate($rules, $errors)) {
+
+                $array = array(
+                    'error'   => true,
+                    'password_error' => $this->validator->getError('password'),             
+                    'passconf_error' => $this->validator->getError('passconf'),             
+                ); 
+
+
+            } else {  //ELse No error proceed
+
+
+                $model = new UserModel();
+  
+                $user = $model->where('u_id' , session()->get('id'))
+                        ->where('u_id !=' , 1)
+                        ->where('mobile', session()->get('mobile'))                   
+                        ->set('password', $this->request->getvar('password'))
+                        ->update();
+
+                $array = array(
+                    'success'=>true,
+                    'message' => '<div class="alert alert-success">Password Updated</div>'
+                );
+
+
+            }
+
+
+            echo json_encode($array);
+
+
+        }
+
+        else {
+
+            return redirect()->to(base_url(''));
+
+        }
 
 
     }
+
+
+
 
 
     private function setUserSession($user)

@@ -1,6 +1,6 @@
-<body class="hold-transition layout-top-nav login-page">
+<body class="hold-transition layout-top-nav">
 
-    <div class="wrapper">
+    <div class="wrapper wrapper-background">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand remove-background navbar-light">
             <div class="container">
@@ -26,13 +26,11 @@
                 </div>
                 </form>
 
-                <ul class="navbar-nav ml-auto">
-
-               
+                <ul class="navbar-nav ml-auto">               
 
                     <li class="nav-item dropdown">
                         <a class="nav-link text-white" data-toggle="dropdown" href="#">
-                            <i class="fas fa-th-large"></i>
+                            <i class="fas fa-bars"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
@@ -60,8 +58,8 @@
 
                             <div class="dropdown-divider"></div>
 
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-cog mr-2"></i> Settings                   
+                            <a href="#" class="dropdown-item" data-toggle="modal" data-target="#modal-password">
+                            <i class="fa-solid fa-key"></i> Change Password                   
                             </a>
 
                             <div class="dropdown-divider"></div>

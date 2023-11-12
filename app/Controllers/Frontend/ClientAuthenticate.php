@@ -429,11 +429,6 @@ class ClientAuthenticate extends FrontendController
     //Default Login through Email and Passwrd
     public  function defaultClientLogin(){
 
-
-                //Send Email Otp
-                $this->sendEmailOtp('axomiakaran@gmail.com', '123456');
-
-
         $data = array( 
             'pageTitle' => 'PRIVATECH-LOGIN'                                         
         ); 

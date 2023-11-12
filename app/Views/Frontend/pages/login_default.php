@@ -14,6 +14,11 @@
     <?php endif; ?>
     </script>
 
+<div class="container">
+
+<div class="row">
+    <div class="col-lg-6 m-auto">
+
         <div class="card mt-3">
             <div class="card-body register-card-body">
                 <p class="login-box-msg">Login</p>
@@ -65,5 +70,12 @@
             <!-- /.form-box -->
         </div><!-- /.card -->
     <!-- /.register-box -->
+
+
+</div>
+
+</div>
+</div>
+
 </section>
 </div>

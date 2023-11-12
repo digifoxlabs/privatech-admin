@@ -54,8 +54,7 @@
     <!-- Toastr -->
     <?= script_tag('public/assets/common/plugins/toastr/toastr.min.js') ?>
 
-    <!-- Bootstrap 4 -->
-    <?=script_tag('public/assets/common/plugins/bootstrap/js/bootstrap.bundle.min.js')?>
+
 
     <style>
     /* Center the loader */
