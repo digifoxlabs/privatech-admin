@@ -67,9 +67,9 @@
             </div>
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-6">
+                <a href="<?= base_url('admin/allClients') ?>">
                 <div class="info-box">
                     <span class="info-box-icon bg-info"><i class="fa fa-users"></i></span>
-
                     <div class="info-box-content">
                         <span class="info-box-text">All Clients</span>
                         <span class="info-box-number">93,139</span>
@@ -77,6 +77,7 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+                </a>
             </div>
             <!-- /.col -->
         </div>
@@ -158,6 +159,7 @@
             </div>
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-6">
+            <a href="<?= base_url('admin/managePackages') ?>">
                 <div class="info-box">
                     <span class="info-box-icon bg-success"><i class="fa-solid fa-layer-group"></i></span>
 
@@ -168,6 +170,7 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+            </a>
             </div>
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-6">

@@ -5,11 +5,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Customers</h1>
+                    <h1>Clients</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Members</a></li>
+                        <li class="breadcrumb-item"><a href="#">Clients</a></li>
                         <li class="breadcrumb-item active">Manage</li>
                     </ol>
                 </div>
@@ -39,10 +39,10 @@
             <div class="col-md-12 col-12">
                 <div class="card card-outline card-info">
                     <div class="card-header">
-                        <h3 class="card-title"><?= $cardTitle; ?></h3>
+                        <h3 class="card-title">All Clients</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-block btn-success btn-sm" data-toggle="modal"
-                                data-target="#modal-add">Add Member</button>
+                                data-target="#modal-add">Add Client</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -65,11 +65,10 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Share</th>
+                                    <th>Name</th>                
                                     <th>Mobile</th>
                                     <th>Email</th>
-                                    <th>Gender</th>
+                                    <th>Subscription</th>
                                     <th>STATUS</th>
                                     <th>ACTION</th>
 
@@ -389,7 +388,7 @@ $(document).ready(function() {
         scrollY: "400px",
         scrollCollapse: true,
         ajax: {
-            url: site_url + "/admin/members/ajaxCallAllMembers", // json datasource
+            url: site_url + "/admin/clients/ajaxCallAllClients", // json datasource
             type: "post",
             data: function(data) {
                 // key1: value1 - in case if we want send data with request      
@@ -405,23 +404,20 @@ $(document).ready(function() {
                 data: "name"
             },
             {
-                data: "share"
-            },
-            {
                 data: "mobile"
             },
             {
                 data: "email"
             },
             {
-                data: "gender"
+                data: "subscription"
             },
             {
                 mRender: function(data, type, row) {
                     if (row.status == 1) {
                         return '<span class="badge bg-success">ACTIVE</span>';
                     } else {
-                        return '<span class="badge bg-warning">PENDING</span>';
+                        return '<span class="badge bg-warning">DISABLED</span>';
                     }
                 }
             },

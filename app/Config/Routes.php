@@ -52,6 +52,15 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Backend'] ,static funct
     //Dashboard
     $routes->get('dashboard', 'Dashboard::index', ['filter' => 'authadmin']);
 
+    //Manage Clients
+    $routes->get('allClients', 'ClientController::viewAllClients');
+    $routes->post('clients/ajaxCallAllClients', 'ClientController::ajaxCallAllClients');
+    
+    //Packages
+    $routes->get('managePackages', 'PackageController::viewAllPackages');
+    $routes->post('packages/ajaxCallAllPackages', 'PackageController::ajaxCallAllPackages');
+
+
 
 
 });
