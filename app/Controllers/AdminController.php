@@ -47,7 +47,15 @@ class AdminController extends BaseController
     }
 
 
+    //Get Setings Value
+    public function getSettings($key){
 
+        $builder = $this->db->table("settings");
+        $builder->select('value');
+        $builder->where('key', $key);
+        return $builder->get()->getRow('value');
+
+    }
 
 
 }

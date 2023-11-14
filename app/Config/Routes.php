@@ -58,7 +58,13 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Backend'] ,static funct
     
     //Packages
     $routes->get('managePackages', 'PackageController::viewAllPackages');
+    $routes->post('packages/createPackage', 'PackageController::createNewPackage');
     $routes->post('packages/ajaxCallAllPackages', 'PackageController::ajaxCallAllPackages');
+
+
+
+    //Settings
+    $routes->match(['get', 'post'], 'settings', 'SettingsController::index', ['filter' => 'authadmin']);
 
 
 

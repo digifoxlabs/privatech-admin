@@ -37,5 +37,28 @@ class DefaultSeeder extends Seeder
                 'g_id' => $g_id,
             ];
             $this->db->table('user_group')->insert($ugdata);
+
+
+            //Default Settings
+            $sdata = [
+
+                [
+                    'key'=> 'site_title',
+                    'value' => 'MY APP',
+                ],
+                [
+                    'key'=> 'site_footer',
+                    'value' => 'Copyright © 2023',
+    
+                ] ,                  
+                [
+                    'key'=> 'gst_rate',
+                    'value' => '18',
+    
+                ] ,  
+            ];
+            $this->db->table('settings')->insertbatch($sdata);
+
+
     }
 }

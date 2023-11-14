@@ -18,15 +18,15 @@
     </section>
 
     <?php
-    $session = session(); ?>
+$session = session(); ?>
 
     <script type="text/javascript">
     <?php if($session->getFlashdata('success')): ?>
     toastr.success('<?php echo $session->getFlashdata('success'); ?>')
     <?php elseif($session->getFlashdata('error')): ?>
     toastr.warning('<?php  foreach($session->getFlashdata('error') as $key => $value) {
-        echo "$key: $value"."</br>";
-      }  ?>');
+echo "$key: $value"."</br>";
+}  ?>');
     <?php endif; ?>
     </script>
 
@@ -65,7 +65,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>                
+                                    <th>Name</th>
                                     <th>Duration</th>
                                     <th>Amount</th>
                                     <th>Tax</th>
@@ -97,7 +97,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add Member</h4>
+                <h4 class="modal-title">Create Package</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -105,92 +105,88 @@
             <div class="modal-body">
 
                 <!-- form start -->
-                <form role="form" action="<?= base_url('admin/members/createMember') ?>" method="post">
+                <form role="form" action="<?= base_url('admin/packages/createPackage') ?>" method="post">
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-sm-8">
+
+                            <div class="col-sm-6">
 
                                 <div class="form-group input-group-sm">
-                                    <label for="name">Name *</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Full Name"
-                                        autocomplete="off" required>
+                                    <label for="name">Package Name *</label>
+                                    <input type="text" class="form-control" name="package_name"
+                                        placeholder="Name of Package" autocomplete="off" required>
                                 </div>
 
                             </div>
 
-                            <div class="col-sm-4">
-                                <div class="form-group input-group-sm">
-                                    <label>Gender</label>
-                                    <select class="form-control" name="gender">
-                                        <option value="" selected>Select</option>
-                                        <option value="male" <?= set_value('gender')=='male'?'selected':'' ?>>MALE
-                                        </option>
-                                        <option value="female" <?= set_value('gender')=='male'?'selected':'' ?>>FEMALE
-                                        </option>
-                                        <option value="others" <?= set_value('gender')=='others'?'selected':'' ?>>OTHERS
-                                        </option>
+                            <div class="col-sm-6">
 
-                                    </select>
+                                <div class="form-group input-group-sm">
+                                    <label for="exampleInputPassword1">Duration in days</label>
+                                    <input type="number" class="form-control" name="duration"
+                                        placeholder="Duration in days" min="0" required autocomplete="off">
                                 </div>
+
                             </div>
+
 
                         </div>
 
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group input-group-sm">
-                                    <label for="exampleInputPassword1">Email ID *</label>
-                                    <input type="email" class="form-control" name="email_id" placeholder="Email ID"
-                                        required autocomplete="off">
+                            <div class="row">
+                                <div class="col-sm-6">
+
+                                    <div class="form-group input-group-sm">
+
+                                        <label for="amount">Amount</label>
+                                        <input type="number" class="form-control" name="amount" placeholder="Amount"
+                                            required autocomplete="off">
+
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-sm-6">
+
+                                    <div class="form-group input-group-sm">
+                                        <label for="amount">Tax (<?= $gst_rate; ?>%)</label>
+                                        <input type="number" class="form-control" name="tax" placeholder="Tax amount"
+                                            required autocomplete="off">
+                                    </div>
+
+
                                 </div>
                             </div>
-                            <div class="col-sm-6">
 
-                                <div class="form-group input-group-sm">
+                            <div class="row">
+                                <div class="col-sm-6">
 
-                                    <label for="password">Contact No *</label>
-                                    <input type="text" class="form-control" name="contact" placeholder="Contact no"
-                                        required autocomplete="off">
+
+
+                                    <div class="form-group input-group-sm">
+
+                                        <label for="amount">Price</label>
+                                        <input type="number" class="form-control" name="price" placeholder="Price"
+                                            required autocomplete="off">
+
+                                    </div>
+
 
                                 </div>
+                                <div class="col-sm-6">
 
-                            </div>
-                        </div>
+                                    <div class="form-group input-group-sm">
+                                        <label>Status</label>
+                                        <select class="form-control" name="status">
+                                            <option value="1" selected>Active</option>
+                                            <option value="0">Disabled </option>
 
-                        <div class="row">
-                            <div class="col-sm-6">
-
-                                <div class="form-group input-group-sm">
-                                    <label for="password">User Type</label>
-                                    <select class="form-control" name="user_type">
-                                        <option value="member" selected>Member</option>
-                                        <option value="admin">Admin</option>
-
-                                    </select>
-
+                                        </select>
+                                    </div>
                                 </div>
 
 
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group input-group-sm">
-
-                                    <label for="share_value">Share value *</label>
-                                    <select class="form-control" name="share_value">
-                                        <option value="" selected>Select</option>
-                                        <option value="0">0</option>
-                                        <option value="1000">1000</option>
-                                        <option value="2000">2000</option>
-                                        <option value="3000">3000</option>
-                                        <option value="4000">4000</option>
-                                        <option value="5000">5000</option>
-                                        <option value="6000">6000</option>
-                                        <option value="8000">8000</option>
-                                        <option value="10000">10000</option>
-                                        <option value="12000">12000</option>
-                                    </select>
-                                </div>
                             </div>
 
 
@@ -201,7 +197,7 @@
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary swalDefaultSuccess">CREATE</button>
+                        <button type="submit" class="btn btn-primary btn-sm swalDefaultSuccess">CREATE</button>
                     </div>
                 </form>
 
@@ -212,10 +208,6 @@
     </div>
 
 </div> <!-- /.modal-dialog -->
-
-
-
-
 
 
 
@@ -236,14 +228,14 @@
                 <!-- form start -->
                 <form role="form" action="<?= base_url('admin/members/updateMember') ?>" method="post">
                     <div class="card-body">
-                    <input type="hidden" name="row_id" id="update_id" >    
+                        <input type="hidden" name="row_id" id="update_id">
                         <div class="row">
                             <div class="col-sm-8">
 
                                 <div class="form-group input-group-sm">
                                     <label for="name">Name *</label>
-                                    <input type="text" class="form-control" name="name" id="idName" placeholder="Full Name"
-                                        autocomplete="off" required>
+                                    <input type="text" class="form-control" name="name" id="idName"
+                                        placeholder="Full Name" autocomplete="off" required>
                                 </div>
 
                             </div>
@@ -270,8 +262,8 @@
                             <div class="col-sm-6">
                                 <div class="form-group input-group-sm">
                                     <label for="exampleInputPassword1">Email ID *</label>
-                                    <input type="email" class="form-control" name="email_id" id="idEmail" placeholder="Email ID"
-                                        required autocomplete="off">
+                                    <input type="email" class="form-control" name="email_id" id="idEmail"
+                                        placeholder="Email ID" required autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -279,8 +271,8 @@
                                 <div class="form-group input-group-sm">
 
                                     <label for="password">Contact No *</label>
-                                    <input type="text" class="form-control" name="contact" id="idContact" placeholder="Contact no"
-                                        required autocomplete="off">
+                                    <input type="text" class="form-control" name="contact" id="idContact"
+                                        placeholder="Contact no" required autocomplete="off">
 
                                 </div>
 
@@ -336,35 +328,35 @@
 
 
 
-        <!--Delete Modal-->        
-        <div class="modal fade" id="modal-delete">
-        <div class="modal-dialog">
-          <div class="modal-content bg-light">
+<!--Delete Modal-->
+<div class="modal fade" id="modal-delete">
+    <div class="modal-dialog">
+        <div class="modal-content bg-light">
             <div class="modal-header">
-              <h4 class="modal-title">Delete Member</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Delete Member</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
             </div>
-            <div class="modal-body">                
-                <p>Are You sure to <strong>Delete</strong> the Member <strong><span id = "delName"></span></strong>   ?</p>                            
-                <form action="<?php echo base_url('admin/members/deleteMember') ?>" method="post">                    
-                <input type="hidden" name="row_id" id="del_id">  
-                                        
-                <div class="modal-footer justify-content-between">
-                  <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-outline-success">Confirm</button>
-                </div>
-                    
-              </form>               
-                                
+            <div class="modal-body">
+                <p>Are You sure to <strong>Delete</strong> the Member <strong><span id="delName"></span></strong> ?</p>
+                <form action="<?php echo base_url('admin/members/deleteMember') ?>" method="post">
+                    <input type="hidden" name="row_id" id="del_id">
+
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-outline-success">Confirm</button>
+                    </div>
+
+                </form>
+
             </div>
-        
-          </div>
-          <!-- /.modal-content -->
+
         </div>
-        <!-- /.modal-dialog -->
-      </div>
-      <!-- /.modal end -->   
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal end -->
 
 
 
@@ -399,8 +391,7 @@ $(document).ready(function() {
                 data.status = type;
             }
         },
-        columns: [
-            {
+        columns: [{
                 mRender: function(data, type, full, meta) {
                     return i++;
                 }
@@ -416,7 +407,7 @@ $(document).ready(function() {
             },
             {
                 data: "tax"
-            },            
+            },
             {
                 data: "price"
             },
@@ -431,11 +422,12 @@ $(document).ready(function() {
             },
             {
                 mRender: function(data, type, row) {
-                    return '<button class="btn btn-outline-warning btn-xs edit-button" data-toggle="modal" data-target="#modal-update" data-id="' + row.pck_id + '">Edit</button>'
+                    return '<button class="btn btn-outline-warning btn-xs edit-button" data-toggle="modal" data-target="#modal-update" data-id="' +
+                        row.pck_id + '">Edit</button>'
                 }
             },
         ],
-        columnDefs: [     
+        columnDefs: [
 
             {
                 orderable: false,
@@ -464,50 +456,40 @@ $(document).ready(function() {
 
 
     // Handle the "Edit" button click event
-    $('#dataTable tbody').on('click', '.edit-button', function () {
+    $('#dataTable tbody').on('click', '.edit-button', function() {
         var data = dataTable.row($(this).parents('tr')).data();
         var edit_id = $(this).data('id');
         var edit_name = $(this).data('name');
         var edit_gender = $(this).data('gender');
         var edit_email = $(this).data('email');
         var edit_mobile = $(this).data('mobile');
-        var edit_type= $(this).data('type');
-        var edit_status= $(this).data('status');
+        var edit_type = $(this).data('type');
+        var edit_status = $(this).data('status');
 
-       $('#update_id').val(edit_id);
-       $('#idName').val(edit_name);
-       $('#idGender').val(edit_gender);
-       $('#idEmail').val(edit_email);
-       $('#idContact').val(edit_mobile);
-       $('#idStatus').val(edit_status);
-       $('#idType').val(edit_type);
+        $('#update_id').val(edit_id);
+        $('#idName').val(edit_name);
+        $('#idGender').val(edit_gender);
+        $('#idEmail').val(edit_email);
+        $('#idContact').val(edit_mobile);
+        $('#idStatus').val(edit_status);
+        $('#idType').val(edit_type);
     });
 
 
-    
-    $('#modal-delete').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var todo_id = button.data('id')  
-      var todo_name = button.data('name')
-  
-      var modal = $(this)  
-      modal.find('.modal-body #del_id').val(todo_id)
-      modal.find('.modal-body #delName').text(todo_name)  
 
-    }); 
+    $('#modal-delete').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var todo_id = button.data('id')
+        var todo_name = button.data('name')
+
+        var modal = $(this)
+        modal.find('.modal-body #del_id').val(todo_id)
+        modal.find('.modal-body #delName').text(todo_name)
+
+    });
 
 
 
 
 });
-
-
-
-
-
-
-
-
-
-
 </script>

@@ -3,9 +3,27 @@
 namespace App\Controllers\Backend;
 
 use App\Controllers\AdminController;
+use App\Models\SettingsModel;
+use App\Models\PackageModel;
 
 class PackageController extends AdminController
 {
+
+
+    public function __construct(){
+
+        parent::__construct();        
+         // Loading db instance
+         // $this->db = db_connect();
+         $this->db = \Config\Database::connect();    
+         // Loading Query builder instance
+         $this->builder = $this->db->table("settings");
+
+        
+ 
+     }
+
+
     public function index()
     {
         //
@@ -15,8 +33,9 @@ class PackageController extends AdminController
     //View All packages
     public function viewAllPackages(){
 
-
+        $settingsModel = new SettingsModel();
         $data = array();
+        $data['gst_rate'] =$this->getSettings('gst_rate');
         $this-> render_view("Backend/pages/packages/all_packages",$data);
     }
 
@@ -114,6 +133,71 @@ class PackageController extends AdminController
 
 
     }
+
+
+
+    //Create New package
+    public function createNewPackage(){
+
+        $rules = [
+            'package_name' => 'required|trim|is_unique[packages.name]',
+            'duration' => 'required|trim|numeric',
+            'amount' => 'required|trim|numeric',
+            'tax' => 'required|trim|numeric',    
+            'price' => 'required|trim|numeric',            
+            'status' => 'required|trim|numeric',            
+        ];
+
+        $errors = [
+  
+            'package_name' => [
+                'required' => "Name of package is Required",
+                'is_unique' => "Package already exists",
+            ], 
+
+            'duration'=>[],
+            'amount'=>[],
+            'tax'=>[],
+            'price'=>[],
+            'status'=>[],
+           
+        ];
+
+        if (!$this->validate($rules,$errors)) {
+            $data['validation'] = $this->validator;
+            $session = session();
+            $errorMsg = $data['validation']->getErrors();
+            $session->setFlashdata('error', $errorMsg);
+            return redirect()->to(base_url('admin/managePackages'));
+
+
+        }else {
+
+            $model = new PackageModel();
+
+            $data = [
+                'name' => $this->request->getVar('package_name'),
+                'duration_in_days' => $this->request->getVar('duration'),
+                'net_amount' => $this->request->getVar('amount'),
+                'tax' => $this->request->getVar('tax'),
+                'price' => $this->request->getVar('price'),
+                'is_active' => $this->request->getVar('status'),
+                'created_by' => session()->get('id'),
+              
+            ];
+
+            $model->save($data);          
+
+            $session = session();
+            $session->setFlashdata('success', 'Package Created');
+            return redirect()->to(base_url('admin/managePackages'));
+        }
+
+
+    }
+
+
+
 
 
 }
