@@ -5,11 +5,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Packages</h1>
+                    <h1>Discount Coupons</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Packages</a></li>
+                        <li class="breadcrumb-item"><a href="#">Coupons</a></li>
                         <li class="breadcrumb-item active">Manage</li>
                     </ol>
                 </div>
@@ -39,10 +39,10 @@ echo "$key: $value"."</br>";
             <div class="col-md-12 col-12">
                 <div class="card card-outline card-info">
                     <div class="card-header">
-                        <h3 class="card-title">All packages</h3>
+                        <h3 class="card-title">All Coupons</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-block btn-success btn-sm" data-toggle="modal"
-                                data-target="#modal-add">Add Package</button>
+                                data-target="#modal-add">Create New</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -65,11 +65,9 @@ echo "$key: $value"."</br>";
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Duration</th>
-                                    <th>Amount</th>
-                                    <th>Tax</th>
-                                    <th>Price</th>
+                                    <th>Coupon</th>
+                                    <th>Promoter</th>
+                                    <th>Discount(%)</th>
                                     <th>STATUS</th>
                                     <th>ACTION</th>
 
@@ -97,7 +95,7 @@ echo "$key: $value"."</br>";
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Create Package</h4>
+                <h4 class="modal-title">Create Coupon</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -105,7 +103,7 @@ echo "$key: $value"."</br>";
             <div class="modal-body">
 
                 <!-- form start -->
-                <form role="form" action="<?= base_url('admin/packages/createPackage') ?>" method="post">
+                <form role="form" action="<?= base_url('admin/coupons/createCoupon') ?>" method="post">
                     <div class="card-body">
 
                         <div class="row">
@@ -113,53 +111,40 @@ echo "$key: $value"."</br>";
                             <div class="col-sm-6">
 
                                 <div class="form-group input-group-sm">
-                                    <label for="name">Package Name *</label>
-                                    <input type="text" class="form-control" name="package_name"
-                                        placeholder="Name of Package" autocomplete="off" required>
+                                    <label for="name">Coupon Name *</label>
+                                    <input type="text" class="form-control" name="coupon_name"
+                                        placeholder="Name of Coupon Code" autocomplete="off" required>
                                 </div>
 
                             </div>
 
-                            <div class="col-sm-6">
-
-                                <div class="form-group input-group-sm">
-                                    <label for="exampleInputPassword1">Duration in days</label>
-                                    <input type="number" class="form-control" name="duration"
-                                        placeholder="Duration in days" min="0" required autocomplete="off">
-                                </div>
-                            </div>
-
+                            <div class="col-sm-6"></div>
 
                         </div>
 
                         <div class="row">
+
                             <div class="col-sm-6">
 
                                 <div class="form-group input-group-sm">
-                                    <label for="amount">Amount</label>
-                                    <input type="number" class="form-control net-amt" name="amount" placeholder="Amount"
-                                        required autocomplete="off">
+                                    <label for="exampleInputPassword1">Promoter Name (optional)</label>
+                                    <input type="text" class="form-control" name="promoter" placeholder="Promoter Name"
+                                        autocomplete="off">
                                 </div>
                             </div>
+                            <div class="col-sm-6"></div>
 
-                            <div class="col-sm-6">
-                                <div class="form-group input-group-sm">
-                                    <label for="amount">Tax (<?= $gst_rate; ?>%)</label>
-                                    <input type="number" class="form-control tax-amt" name="tax" placeholder="Tax amount" 
-                                        required readonly>
-                                </div>
-
-                            </div>
                         </div>
+
 
                         <div class="row">
                             <div class="col-sm-6">
 
                                 <div class="form-group input-group-sm">
 
-                                    <label for="amount">Price</label>
-                                    <input type="number" class="form-control price-amt" name="price" placeholder="Price" required
-                                        readonly>
+                                    <label for="amount">Discount (%)</label>
+                                    <input type="number" class="form-control price-amt" name="discount_pcn"
+                                        placeholder="Discount" value="0">
 
                                 </div>
 
@@ -196,14 +181,12 @@ echo "$key: $value"."</br>";
 
 
 
-
-
 <!-- Update Modal-->
 <div class="modal fade" id="modal-update">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Update Member</h4>
+                <h4 class="modal-title">Update Coupon</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -211,7 +194,7 @@ echo "$key: $value"."</br>";
             <div class="modal-body">
 
                 <!-- form start -->
-                <form role="form" action="<?= base_url('admin/packages/updatePackage') ?>" method="post">
+                <form role="form" action="<?= base_url('admin/coupons/updateCoupon') ?>" method="post">
                     <div class="card-body">
                         <input type="hidden" name="row_id" id="update_id">
 
@@ -219,70 +202,53 @@ echo "$key: $value"."</br>";
 
                             <div class="col-sm-6">
 
+
                                 <div class="form-group input-group-sm">
-                                    <label for="name">Package Name *</label>
-                                    <input type="text" class="form-control" name="package_name" id="idPackageName"
-                                        placeholder="Name of Package" autocomplete="off" required>
+                                    <label for="name">Coupon Name *</label>
+                                    <input type="text" class="form-control" name="coupon_name" id="idCouponName"
+                                        placeholder="Name of Coupon Code" autocomplete="off" required>
                                 </div>
 
                             </div>
+
+                            <div class="col-sm-6"></div>
+
+
+                        </div>
+
+
+                        <div class="row">
 
                             <div class="col-sm-6">
 
                                 <div class="form-group input-group-sm">
-                                    <label for="exampleInputPassword1">Duration in days</label>
-                                    <input type="number" class="form-control" name="duration" id="idDuration"
-                                        placeholder="Duration in days" min="0" required autocomplete="off">
+                                    <label for="exampleInputPassword1">Promoter Name (optional)</label>
+                                    <input type="text" class="form-control" name="promoter" id="idPromoter"
+                                        placeholder="Promoter Name" autocomplete="off">
                                 </div>
-
                             </div>
-
+                            <div class="col-sm-6"></div>
 
                         </div>
+
+
 
                         <div class="row">
                             <div class="col-sm-6">
 
                                 <div class="form-group input-group-sm">
 
-                                    <label for="amount">Amount</label>
-                                    <input type="number" class="form-control" name="amount" id="idAmount" placeholder="Amount"
-                                        required autocomplete="off">
+                                    <label for="amount">Discount (%)</label>
+                                    <input type="number" class="form-control price-amt" name="discount_pcn" id="idDiscount"
+                                        placeholder="Discount" value="0">
 
                                 </div>
-
-
-                            </div>
-
-                            <div class="col-sm-6">
-
-                                <div class="form-group input-group-sm">
-                                    <label for="amount">Tax (<?= $gst_rate; ?>%)</label>
-                                    <input type="number" class="form-control" name="tax" id="idTax" placeholder="Tax amount"
-                                        required autocomplete="off">
-                                </div>
-
-
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-sm-6">
-
-                                <div class="form-group input-group-sm">
-
-                                    <label for="amount">Price</label>
-                                    <input type="number" class="form-control" name="price" id="idPrice" placeholder="Price" required
-                                        autocomplete="off">
-
-                                </div>
-
                             </div>
                             <div class="col-sm-6">
 
                                 <div class="form-group input-group-sm">
                                     <label>Status</label>
-                                    <select class="form-control" name="status" id="idStatus" >
+                                    <select class="form-control" name="status" id="idStatus">
                                         <option value="1" selected>Active</option>
                                         <option value="0">Disabled </option>
 
@@ -292,7 +258,6 @@ echo "$key: $value"."</br>";
 
 
                         </div>
-
 
                     </div>
                     <!-- /.card-body -->
@@ -317,13 +282,13 @@ echo "$key: $value"."</br>";
     <div class="modal-dialog">
         <div class="modal-content bg-light">
             <div class="modal-header">
-                <h4 class="modal-title">Delete Package</h4>
+                <h4 class="modal-title">Delete Coupon</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <p>Are You sure to <strong>Delete</strong> the Package <strong><span id="delName"></span></strong> ?</p>
-                <form action="<?= base_url('admin/packages/deletePackage') ?>" method="post">
+                <p>Are You sure to <strong>Delete</strong> the Coupon <strong><span id="delName"></span></strong> ?</p>
+                <form action="<?= base_url('admin/coupons/deleteCoupon') ?>" method="post">
                     <input type="hidden" name="row_id" id="del_id">
 
                     <div class="modal-footer justify-content-between">
@@ -366,7 +331,7 @@ $(document).ready(function() {
         scrollY: "400px",
         scrollCollapse: true,
         ajax: {
-            url: site_url + "/admin/packages/ajaxCallAllPackages", // json datasource
+            url: site_url + "/admin/coupons/ajaxCallAllCoupons", // json datasource
             type: "post",
             data: function(data) {
                 // key1: value1 - in case if we want send data with request      
@@ -381,19 +346,13 @@ $(document).ready(function() {
                 }
             },
             {
-                data: "name"
+                data: "coupon"
             },
             {
-                data: "duration_in_days"
+                data: "promoter_name"
             },
             {
-                data: "net_amount"
-            },
-            {
-                data: "tax"
-            },
-            {
-                data: "price"
+                data: "discount_percentage"
             },
             {
                 mRender: function(data, type, row) {
@@ -407,7 +366,11 @@ $(document).ready(function() {
             {
                 mRender: function(data, type, row) {
                     return '<button class="btn btn-outline-warning btn-xs edit-button" data-toggle="modal" data-target="#modal-update" data-id="' +
-                        row.pck_id + '" data-name="'+ row.name +'" data-duration="'+ row.duration_in_days +'" data-amount="'+ row.net_amount+'" data-tax="' + row.tax + '" data-price="'+ row.price+'" data-status="'+row.is_active+'" >Edit</button> <button class="btn btn-outline-danger btn-xs del-button" data-toggle="modal" data-target="#modal-delete" data-id="' + row.pck_id + '" data-name="' + row.name + '" >Del</button>'
+                        row.cp_id + '" data-name="' + row.coupon + '" data-promoter="' + row
+                        .promoter_name + '" data-discount="' + row.discount_percentage +
+                        '" data-status="' + row.is_active +
+                        '" >Edit</button> <button class="btn btn-outline-danger btn-xs del-button" data-toggle="modal" data-target="#modal-delete" data-id="' +
+                        row.cp_id + '" data-name="' + row.coupon + '" >Del</button>'
                 }
             },
         ],
@@ -444,18 +407,14 @@ $(document).ready(function() {
         var data = dataTable.row($(this).parents('tr')).data();
         var edit_id = $(this).data('id');
         var edit_name = $(this).data('name');
-        var edit_duration = $(this).data('duration');
-        var edit_amount = $(this).data('amount');
-        var edit_tax = $(this).data('tax');
-        var edit_price = $(this).data('price');
+        var edit_promoter = $(this).data('promoter');
+        var edit_discount = $(this).data('discount');
         var edit_status = $(this).data('status');
 
         $('#update_id').val(edit_id);
-        $('#idPackageName').val(edit_name);
-        $('#idDuration').val(edit_duration);
-        $('#idAmount').val(edit_amount);
-        $('#idTax').val(edit_tax);
-        $('#idPrice').val(edit_price);
+        $('#idCouponName').val(edit_name);
+        $('#idPromoter').val(edit_promoter);
+        $('#idDiscount').val(edit_discount);
         $('#idStatus').val(edit_status);
     });
 
@@ -473,26 +432,5 @@ $(document).ready(function() {
     });
 
 
-    $(document).on('change', '.net-amt', function(){
-
-        updatePrice();
- 
-    }); 
-
-
-
 });
-
-    //Update Tax Rate
-    function updatePrice(){
-
-        var tmp_amt =  $('.net-amt').val();
-        var gst = "<?php echo $gst_rate; ?>";
-        var tax_amt = parseFloat(tmp_amt*gst)/100;
-        var new_price = parseFloat(tmp_amt)+parseFloat(tax_amt);
-        new_price = new_price.toFixed(2);
-        $('.tax-amt').val(tax_amt);
-        $('.price-amt').val(new_price);
-
-        }
 </script>

@@ -57,9 +57,27 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Backend'] ,static funct
     $routes->post('clients/ajaxCallAllClients', 'ClientController::ajaxCallAllClients');
     
     //Packages
-    $routes->get('managePackages', 'PackageController::viewAllPackages');
-    $routes->post('packages/createPackage', 'PackageController::createNewPackage');
+    $routes->get('managePackages', 'PackageController::viewAllPackages', ['filter' => 'authadmin']);
+    $routes->post('packages/createPackage', 'PackageController::createPackage', ['filter' => 'authadmin']);
+    $routes->post('packages/updatePackage', 'PackageController::updatePackage', ['filter' => 'authadmin']);
+    $routes->post('packages/deletePackage', 'PackageController::deletePackage', ['filter' => 'authadmin']);
     $routes->post('packages/ajaxCallAllPackages', 'PackageController::ajaxCallAllPackages');
+    
+    
+    //Activation Codes    
+    $routes->get('activationCodes', 'ActivationCodeController::index', ['filter' => 'authadmin']);
+    $routes->post('activationCodes/createCode', 'ActivationCodeController::createCode', ['filter' => 'authadmin']);
+    $routes->post('activationCodes/deleteCode', 'ActivationCodeController::deleteCode', ['filter' => 'authadmin']);
+    $routes->post('activationCodes/ajaxCallAllCodes', 'ActivationCodeController::ajaxCallAllCodes');
+
+
+
+    //Coupon Codes
+    $routes->get('couponCodes', 'CouponController::index', ['filter' => 'authadmin']);
+    $routes->post('coupons/createCoupon', 'CouponController::createCoupon', ['filter' => 'authadmin']);
+    $routes->post('coupons/updateCoupon', 'CouponController::updateCoupon', ['filter' => 'authadmin']);
+    $routes->post('coupons/deleteCoupon', 'CouponController::deleteCoupon', ['filter' => 'authadmin']);
+    $routes->post('coupons/ajaxCallAllCoupons', 'CouponController::ajaxCallAllCoupons');
 
 
 

@@ -174,6 +174,7 @@
             </div>
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-6">
+            <a href="<?= base_url('admin/activationCodes') ?>">
                 <div class="info-box">
                     <span class="info-box-icon bg-primary"><i class="fa fa-ticket-alt"></i></span>
 
@@ -184,10 +185,12 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+            </a>
             </div>
             <!-- /.col -->
 
             <div class="col-md-3 col-sm-6 col-6">
+            <a href="<?= base_url('admin/couponCodes') ?>">
                 <div class="info-box">
                     <span class="info-box-icon bg-secondary"><i class="fas fa-tag"></i></span>
 
@@ -198,6 +201,7 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+            </a>
             </div>
             <!-- /.col -->
         </div>

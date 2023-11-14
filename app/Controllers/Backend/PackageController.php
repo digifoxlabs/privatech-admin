@@ -17,9 +17,7 @@ class PackageController extends AdminController
          // $this->db = db_connect();
          $this->db = \Config\Database::connect();    
          // Loading Query builder instance
-         $this->builder = $this->db->table("settings");
-
-        
+         $this->builder = $this->db->table("settings");        
  
      }
 
@@ -137,7 +135,7 @@ class PackageController extends AdminController
 
 
     //Create New package
-    public function createNewPackage(){
+    public function createPackage(){
 
         $rules = [
             'package_name' => 'required|trim|is_unique[packages.name]',
@@ -176,7 +174,7 @@ class PackageController extends AdminController
             $model = new PackageModel();
 
             $data = [
-                'name' => $this->request->getVar('package_name'),
+                'name' => strtoupper($this->request->getVar('package_name')),
                 'duration_in_days' => $this->request->getVar('duration'),
                 'net_amount' => $this->request->getVar('amount'),
                 'tax' => $this->request->getVar('tax'),
@@ -197,6 +195,90 @@ class PackageController extends AdminController
     }
 
 
+    //Update package
+    public function updatePackage(){
+
+        $id = $this->request->getVar('row_id');
+
+        $rules = [
+            'package_name' => 'required|trim|is_unique[packages.name,pck_id,'.$id.']',
+            'duration' => 'required|trim|numeric',
+            'amount' => 'required|trim|numeric',
+            'tax' => 'required|trim|numeric',    
+            'price' => 'required|trim|numeric',            
+            'status' => 'required|trim|numeric',            
+        ];
+
+        $errors = [
+  
+            'package_name' => [
+                'required' => "Name of package is Required",
+                'is_unique' => "Package already exists",
+            ], 
+
+            'duration'=>[],
+            'amount'=>[],
+            'tax'=>[],
+            'price'=>[],
+            'status'=>[],
+           
+        ];
+
+        if (!$this->validate($rules,$errors)) {
+            $data['validation'] = $this->validator;
+            $session = session();
+            $errorMsg = $data['validation']->getErrors();
+            $session->setFlashdata('error', $errorMsg);
+            return redirect()->to(base_url('admin/managePackages'));
+
+
+        }else {
+
+            $model = new PackageModel();
+
+            $data = [
+                'pck_id' => $this->request->getVar('row_id'),
+                'name' => strtoupper($this->request->getVar('package_name')),
+                'duration_in_days' => $this->request->getVar('duration'),
+                'net_amount' => $this->request->getVar('amount'),
+                'tax' => $this->request->getVar('tax'),
+                'price' => $this->request->getVar('price'),
+                'is_active' => $this->request->getVar('status'),
+              
+            ];
+
+            $model->save($data);
+            $session = session();
+            $session->setFlashdata('success', 'Package Updated');
+            return redirect()->to(base_url('admin/managePackages'));
+        }
+
+    }
+
+
+    //Delete Package
+    public function deletePackage(){
+
+        if (isset($_POST['row_id'])) {      
+            $id = $this->request->getVar('row_id');                
+            $model = new PackageModel();
+            $model->delete($id);
+
+            $session = session();
+            $session->setFlashdata('success', 'Package Deleted');
+            return redirect()->to(base_url('admin/managePackages'));
+      }
+      
+      else {
+            //Pass error message in key value pair
+            $errorMsg = array('Msg:'=> 'Error occurred!');
+            $session = session();
+            $session->setFlashdata('error', $errorMsg);
+            return redirect()->to(base_url('admin/managePackages'));
+      } 
+
+
+    }
 
 
 
