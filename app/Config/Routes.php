@@ -52,9 +52,23 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Backend'] ,static funct
     //Dashboard
     $routes->get('dashboard', 'Dashboard::index', ['filter' => 'authadmin']);
 
-    //Manage Clients
+    //All Clients
     $routes->get('allClients', 'ClientController::viewAllClients');
     $routes->post('clients/ajaxCallAllClients', 'ClientController::ajaxCallAllClients');
+    
+    //Clients Active Subscriptions
+    $routes->get('clients/active', 'ClientController::viewAllClientsActive');
+    $routes->match(['post'],'clients/ajaxCallAllClientsActive', 'ClientController::ajaxCallAllClientsActive');
+
+    //Clients Expired Subscriptions
+    $routes->get('clients/expired', 'ClientController::viewAllClientsExpired');
+    $routes->post('clients/ajaxCallAllClientsExpired', 'ClientController::ajaxCallAllClientsExpired');
+
+    //Clients Pending Subscriptions
+    $routes->get('clients/pending', 'ClientController::viewAllClientsPending');
+    $routes->post('clients/ajaxCallAllClientsPending', 'ClientController::ajaxCallAllClientsPending');
+
+    
     
     //Packages
     $routes->get('managePackages', 'PackageController::viewAllPackages', ['filter' => 'authadmin']);
@@ -88,3 +102,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Backend'] ,static funct
 
 
 });
+
+
+//Test Routes
+$routes->match(['get', 'post'], 'test', 'Backend\Dashboard::test');

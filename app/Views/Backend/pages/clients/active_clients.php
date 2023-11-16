@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Clients</h1>
+                    <h1>Active Subscriptions</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Clients</a></li>
-                        <li class="breadcrumb-item active">Manage</li>
+                        <li class="breadcrumb-item active">Active Subscriptons</li>
                     </ol>
                 </div>
             </div>
@@ -39,7 +39,7 @@
             <div class="col-md-12 col-12">
                 <div class="card card-outline card-info">
                     <div class="card-header">
-                        <h3 class="card-title">All Clients</h3>
+                        <h3 class="card-title">Active Subscriptions</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-block btn-success btn-sm" data-toggle="modal"
                                 data-target="#modal-add">Add Client</button>
@@ -390,7 +390,7 @@ $(document).ready(function() {
         scrollY: "400px",
         scrollCollapse: true,
         ajax: {
-            url: site_url + "/admin/clients/ajaxCallAllClients", // json datasource
+            url: site_url + "/admin/clients/ajaxCallAllClientsActive", // json datasource
             type: "post",
             data: function(data) {
                 // key1: value1 - in case if we want send data with request      

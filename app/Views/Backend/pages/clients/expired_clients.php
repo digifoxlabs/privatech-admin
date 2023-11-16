@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Clients</h1>
+                    <h1>Expired Subscriptions</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Clients</a></li>
-                        <li class="breadcrumb-item active">Manage</li>
+                        <li class="breadcrumb-item active">Expired Subscriptons</li>
                     </ol>
                 </div>
             </div>
@@ -390,7 +390,7 @@ $(document).ready(function() {
         scrollY: "400px",
         scrollCollapse: true,
         ajax: {
-            url: site_url + "/admin/clients/ajaxCallAllClients", // json datasource
+            url: site_url + "/admin/clients/ajaxCallAllClientsExpired", // json datasource
             type: "post",
             data: function(data) {
                 // key1: value1 - in case if we want send data with request      
@@ -416,9 +416,9 @@ $(document).ready(function() {
             {
                 mRender: function(data, type, row) {
                     if (row.subscription > 0) {
-                        return '<span class="badge bg-success">YES</span>';
+                        return '<span class="badge bg-warning">Expired</span>';
                     } else {
-                        return '<span class="badge bg-warning">NO</span>';
+                        return '<span class="badge bg-info">NA</span>';
                     }
                 }
             },

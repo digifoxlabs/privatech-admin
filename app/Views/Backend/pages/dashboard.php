@@ -28,6 +28,8 @@
         <h5 class="lead mb-2">Clients</h5>
         <div class="row">
             <div class="col-md-3 col-sm-6 col-6">
+            <a href="<?= base_url('admin/clients/active') ?>">
+
                 <div class="info-box">
                     <span class="info-box-icon bg-success"><i class="fa fa-users"></i></span>
 
@@ -38,12 +40,14 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+
+            </a>
             </div>
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-6">
+            <a href="<?= base_url('admin/clients/pending') ?>">
                 <div class="info-box">
                     <span class="info-box-icon bg-warning"><i class="fa fa-users"></i></span>
-
                     <div class="info-box-content">
                         <span class="info-box-text">Pending</span>
                         <span class="info-box-number">410</span>
@@ -51,9 +55,11 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+            </a>
             </div>
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-6">
+            <a href="<?= base_url('admin/clients/expired') ?>">
                 <div class="info-box">
                     <span class="info-box-icon bg-danger"><i class="fa fa-users"></i></span>
 
@@ -64,6 +70,7 @@
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+            </a>
             </div>
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-6">

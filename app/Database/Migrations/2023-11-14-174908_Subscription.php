@@ -26,13 +26,7 @@ class Subscription extends Migration
                 'constraint'=> 32,
             ],
 
-            'subs_type' => [
-                'type' => 'VARCHAR',
-                'constraint'=> '256',
-                'default'=>'plan'
-            ],
-
-            'started_at' => [
+             'started_at' => [
                 'type' => 'DATE',
             ],        
             'ends_on' => [
