@@ -68,7 +68,10 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Backend'] ,static funct
     $routes->get('clients/pending', 'ClientController::viewAllClientsPending');
     $routes->post('clients/ajaxCallAllClientsPending', 'ClientController::ajaxCallAllClientsPending');
 
-    
+    //View Client Page
+    $routes->get('clients/view/(:alphanum)', 'ClientController::viewClient/$1', ['filter'=>'authadmin']);
+
+
     
     //Packages
     $routes->get('managePackages', 'PackageController::viewAllPackages', ['filter' => 'authadmin']);

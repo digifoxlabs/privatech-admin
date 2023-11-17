@@ -6,6 +6,7 @@ use App\Controllers\FrontendController;
 // Load Model
 use App\Models\UserModel;
 use App\Models\OTPModel;
+use App\Models\SubscriptionModel;
 
 class HomeController extends FrontendController
 {
@@ -120,45 +121,50 @@ class HomeController extends FrontendController
 
                 $model->save($userData);
 
-                $lastID = $model->getInsertID();
-                if($lastID){
+                $lastUserID = $model->getInsertID();
+
+                if($lastUserID){
+
+                        //Create a Subscription Entry
+                        $subsmodel = new SubscriptionModel();
+
+                        $subsData = [
+                            'client_id' => $lastUserID,                            
+                            'txn_id' => null,
+                            'started_at' => null,
+                            'ends_on' => null,
+                            'validity'=>null,
+                            'status' => 2, //1 Active | 2 Pending                       
+                        ];
+                        $subsmodel->save($subsData);
+
+                        //Login Client to Dashboard
+                        $user = $model->where('u_id', $lastUserID)
+                                    ->where('status', '1')
+                                    ->where('u_id !=' , '1')
+                                    ->first();
 
 
-                    //Login Client to Dashboard
-                    $user = $model->where('u_id', $lastID)
-                                ->where('status', '1')
-                                ->where('u_id !=' , '1')
-                                ->first();
+                        // Storing session values
 
+                        if($user){
+                            $this->setUserSession($user);
+                            // Redirecting to dashboard after login
+                            return redirect()->to(base_url('dashboard'));
+                        }
 
-                     // Storing session values
+                        else {
 
-                    if($user){
+                            return redirect()->to(base_url('login/client'));
+    
+                        }
 
-                        $this->setUserSession($user);
-                        // Redirecting to dashboard after login
-                        return redirect()->to(base_url('dashboard'));
+                }          
 
-                    }
+                
 
-                else {
-
-                    return redirect()->to(base_url('login/client'));
-
-                }
-
-
-
-                }
-
-
-
-
-
-            }
-
-
-
+            } //else
+         
 
         }
         //Else GET Request

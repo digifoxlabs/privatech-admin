@@ -415,12 +415,13 @@ $(document).ready(function() {
             },
             {
                 mRender: function(data, type, row) {
-                    if (row.subscription > 0) {
+                    if (row.subscription == 0) {
                         return '<span class="badge bg-warning">Expired</span>';
                     } else {
                         return '<span class="badge bg-info">NA</span>';
                     }
                 }
+               
             },
             {
                 mRender: function(data, type, row) {
@@ -441,7 +442,8 @@ $(document).ready(function() {
 
             {
                 orderable: false,
-                targets: [0, 1, 2, 3]
+                searchable: false,
+                targets: 0
             },
             {
                 className: 'text-center',
@@ -455,7 +457,17 @@ $(document).ready(function() {
             },
 
         ],
+        "order": [[ 1, 'asc' ]],
         bFilter: true, // to display datatable search
+
+        "drawCallback": function(settings) {
+            var api = this.api();
+            var startIndex = api.context[0]._iDisplayStart;
+
+            api.column(0).nodes().each(function(cell, i) {
+                cell.innerHTML = startIndex + i + 1;
+            });
+        }
     });
 
 

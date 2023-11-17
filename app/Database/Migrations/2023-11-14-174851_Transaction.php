@@ -83,7 +83,7 @@ class Transaction extends Migration
             'status' => [
                 'type' => 'INT',
                 'constraint'=> 32,    
-                'default' => 0, 
+                'default' => 1, 
             ],
 
             'created_by' => [

@@ -53,8 +53,8 @@
                                 <td>
                                     <select class="form-control form-control-sm" id='searchByStatus'>
                                         <option value=''>-- Status--</option>
-                                        <option value='2'>Pending</option>
                                         <option value='1'>Active</option>
+                                        <option value='2'>Disabled</option>
                                     </select>
                                 </td>
                             </tr>
@@ -69,8 +69,8 @@
                                     <th>Mobile</th>
                                     <th>Email</th>
                                     <th>Subscription</th>
-                                    <th>STATUS</th>
-                                    <th>ACTION</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
 
                                 </tr>
                             </thead>
@@ -433,7 +433,8 @@ $(document).ready(function() {
             },
             {
                 mRender: function(data, type, row) {
-                    return '<button class="btn btn-outline-warning btn-xs edit-button" data-toggle="modal" data-target="#modal-update" data-id="' + row.u_id + '"  data-name="' + row.name + '"   data-gender="' + row.gender + '" data-email="' + row.email + '" data-mobile="' + row.mobile + '" data-status="' + row.status + '"  data-share="' + row.share + '" data-type="' + row.user_type + '"  >Edit</button> <button class="btn btn-outline-danger btn-xs del-button" data-toggle="modal" data-target="#modal-delete" data-id="' + row.u_id + '" data-name="' + row.name + '" >Del</button>'
+                    return '<a href="<?= base_url('admin/clients/view') ?>' + '/' + row.u_id +
+                            '" class="btn btn-outline-info btn-xs" >VIEW</a>'
                 }
             },
         ],
@@ -445,7 +446,7 @@ $(document).ready(function() {
             },
             {
                 className: 'text-center',
-                targets: [1, 2, 3, 4, 5]
+                targets: [1, 2, 3, 4, 5, 6]
             },
             {
                 "targets": [1, 2, 3, 4, 5],

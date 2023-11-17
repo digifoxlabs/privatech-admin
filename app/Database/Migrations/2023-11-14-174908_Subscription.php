@@ -24,22 +24,26 @@ class Subscription extends Migration
             'txn_id' => [
                 'type' => 'INT',
                 'constraint'=> 32,
+                'null'=>true
             ],
 
              'started_at' => [
                 'type' => 'DATE',
+                'null'=>true
             ],        
             'ends_on' => [
                 'type' => 'DATE',
+                'null'=>true
             ],           
             'validity_days' => [
                 'type' => 'VARCHAR',
                 'constraint'=> '256',
+                'null'=>true
             ],
             'status' => [
                 'type' => 'INT',
                 'constraint'=> 32,    
-                'default' => 0, 
+                'default' => 2, 
             ],
             'created_at datetime default current_timestamp',
             'updated_at datetime default current_timestamp on update current_timestamp',

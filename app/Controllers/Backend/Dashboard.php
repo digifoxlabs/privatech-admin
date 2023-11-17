@@ -65,76 +65,57 @@ class Dashboard extends AdminController
         // $total_count = $query->getResult();     
 
 
+        $hasRecord = $this->db->table('users')
+                            ->select('*')
+                            ->join('subscriptions', 'users.u_id = subscriptions.client_id')
+                            ->where('users.u_id !=', 1)
+                            ->groupBy('users.u_id')
+                            ->get();
 
-        $hasSubscription = $this->db->table('users')
-                        ->select('*')
-                        ->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left')
-                        ->where('users.u_id !=', 1)
-                        ->where('subscriptions.status', 1)
-                        ->where('subscriptions.ends_on <', $today)
-                        ->groupBy('users.u_id')
-                        ->get();
-                        
+                if(count($hasRecord->getResult()) > 0){
 
-        echo count($hasSubscription->getResult());
+                //Check if active and expired record exists
+                $checkRecord = $this->db->table('users')
+                    ->select('*')
+                    ->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left')
+                    ->where('subscriptions.status >', 0)
+                    ->where('users.u_id !=', 1)
+                    ->groupBy('users.u_id')
+                    ->get();
 
-        if(count($hasSubscription->getResult()) > 0){
-
-        
-            $isSubscriptionExpired = $this->db->table('users')
-                                        ->select('*')
-                                        ->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left')
-                                        ->where('users.u_id !=', 1)
-                                        ->where('subscriptions.status', 1)
-                                        ->where('subscriptions.ends_on >=', $today)
-                                        ->groupBy('users.u_id')
-                                        ->get();
-
-           
-        echo count($isSubscriptionExpired->getResult());
-            //Expired Subscription
-            if(count($isSubscriptionExpired->getResult()) == 0){
-
-                    $builder = $this->db->table('users')
-                                    ->select('users.name, users.mobile , users.email,users.status, subscriptions.status as subscription')
-                                    ->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left')
-                                    ->where('users.u_id !=', 1)
-                                    ->where('subscriptions.status', 1)
-                                    ->where('subscriptions.ends_on <', $today)
-                                    ->groupBy('users.u_id');
-                                  //  ->get();
-
-               // $total_count = $builder->getResult();    
-
-                    $query = $builder->get();
-                    $total_count = $query->getResult();   
-                    echo "<pre>";
-                    print_r($total_count);
-
-            }
-          
-
-        }
-  
-
-        // $builder = $this->db->table('users');
-        // $builder->select('users.name, users.mobile , users.email,users.status, subscriptions.status as subscription');
-        // $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-        // $builder->where('users.u_id !=', 1);
-        // $builder->where('subscriptions.status', 1);
-        // $builder->where('subscriptions.ends_on <', $today);
-        // $builder->where('subscriptions.ends_on >=', $today);
-        // $builder->groupBy('users.u_id');
-        // $query = $builder->get();
-        // $total_count = $query->getResult();    
+                //Records available are only pending
+                if(count($checkRecord->getResult()) == 0){
 
 
-        // $builder = $this->db->table('users');
-        // $builder->select('name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = users.u_id AND subscriptions.client_id != "1" AND subscriptions.ends_on >= now() )) as subscription');
-        // $builder->where('users.u_id !=', 1);
-        // $query = $builder->get();
-        // $total_count = $query->getResult();        
+                $builder = $this->db->table('users')
+                            ->select('users.name, users.mobile , users.email,users.status, subscriptions.status as subscription')
+                            ->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left')
+                            ->where('subscriptions.status <', 1)
+                            ->where('users.u_id !=', 1)
+                            ->groupBy('users.u_id')
+                            ->get();
+                $total_count = $builder->getResult();    
 
+                $builder = $this->db->table('users')
+                            ->select('users.name, users.mobile , users.email,users.status, subscriptions.status as subscription')
+                            ->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left')
+                            ->where('subscriptions.status <', 1)
+                            ->where('users.u_id !=', 1)
+                            ->groupBy('users.u_id')
+                            // ->limit($start, $length)
+                            ->get();
+
+                    
+
+                }
+
+
+               
+
+                $data = $builder->getResult();    
+
+                echo "<pre>";
+                print_r($data);
 
 
 
@@ -148,7 +129,7 @@ class Dashboard extends AdminController
 
 
 
-}
+    }}
 
 
 ?>
