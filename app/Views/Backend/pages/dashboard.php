@@ -35,7 +35,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Active</span>
-                        <span class="info-box-number">1,410</span>
+                        <span class="info-box-number"><?= $activeClients ?></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -50,7 +50,7 @@
                     <span class="info-box-icon bg-warning"><i class="fa fa-users"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">Pending</span>
-                        <span class="info-box-number">410</span>
+                        <span class="info-box-number"><?= $pendingClients ?></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -65,7 +65,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Expired</span>
-                        <span class="info-box-number">13,648</span>
+                        <span class="info-box-number"><?= $expiredClients ?></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -79,7 +79,7 @@
                     <span class="info-box-icon bg-info"><i class="fa fa-users"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">All Clients</span>
-                        <span class="info-box-number">93,139</span>
+                        <span class="info-box-number"><?= $allClients ?></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -99,7 +99,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">New Requests</span>
-                        <span class="info-box-number">1,410</span>
+                        <span class="info-box-number">XX</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -111,8 +111,8 @@
                     <span class="info-box-icon bg-success"><i class="fa-solid fa-sitemap"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Active</span>
-                        <span class="info-box-number">410</span>
+                        <span class="info-box-text">All Dealers</span>
+                        <span class="info-box-number">XX</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -124,8 +124,8 @@
                     <span class="info-box-icon bg-warning"><i class="fa-solid fa-sitemap"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Disabled</span>
-                        <span class="info-box-number">13,648</span>
+                        <span class="info-box-text">Messages</span>
+                        <span class="info-box-number">XX</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -138,8 +138,8 @@
                     <span class="info-box-icon bg-secondary"><i class="fa-solid fa-sitemap"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">All Dealers</span>
-                        <span class="info-box-number">93,139</span>
+                        <span class="info-box-text">Settings</span>
+                        <span class="info-box-number">XX</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -153,16 +153,18 @@
         <h5 class="lead mt-4 mb-2">Subscriptions</h5>
         <div class="row">
             <div class="col-md-3 col-sm-6 col-6">
+            <a href="<?= base_url('admin/transactions') ?>">
                 <div class="info-box">
                     <span class="info-box-icon bg-info"><i class="fa-solid fa-receipt"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Transactions</span>
-                        <span class="info-box-number">1,410</span>
+                        <span class="info-box-number"><?= $allTransactions ?></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+            </a>
             </div>
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-6">
@@ -172,7 +174,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Packages</span>
-                        <span class="info-box-number">410</span>
+                        <span class="info-box-number"><?= $allPackages ?></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -187,7 +189,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Activation Codes</span>
-                        <span class="info-box-number">13,648</span>
+                        <span class="info-box-number"><?= $allActivationCodes ?></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -203,7 +205,7 @@
 
                     <div class="info-box-content">
                         <span class="info-box-text">Discount Coupons</span>
-                        <span class="info-box-number">93,139</span>
+                        <span class="info-box-number"><?= $allCoupons ?></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>

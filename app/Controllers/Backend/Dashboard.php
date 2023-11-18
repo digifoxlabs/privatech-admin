@@ -14,15 +14,109 @@ class Dashboard extends AdminController
 
         parent::__construct();
         $this->db = db_connect();
+  
     }
 
 
     public function index()
     {
 
-        $data = array();
+        $data = array(
+            'activeClients'=> $this->countActiveClients(),
+            'pendingClients'=> $this->countPendingClients(),
+            'expiredClients'=> $this->countExpiredClients(),
+            'allClients'=> $this->countAllClients(),
+            'allTransactions'=> $this->countAllTxn(),
+            'allPackages'=> $this->countAllPackages(),
+            'allActivationCodes'=> $this->countAllActivationCodes(),
+            'allCoupons'=> $this->countAllCoupons(),
+        );
 
         $this-> render_view("Backend/pages/dashboard",$data);
+    }
+
+
+    //Clients Counter
+    public function countActiveClients(){
+
+        $today = Time::today('Asia/Kolkata', 'en_IN');
+
+        $builder = $this->db->table('users');
+        $builder->select('users.u_id,users.name, users.mobile , users.email, users.status, subscriptions.status as subscription');
+        $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
+        $builder->where('users.u_id !=', 1);
+        $builder->where('subscriptions.status', 1);
+        $builder->where('subscriptions.ends_on >=', $today);
+        return $builder->countAllResults();
+    }
+
+    //Pending Clients
+    public function countPendingClients(){
+
+        $builder = $this->db->table('users');
+        $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
+        $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
+        $builder->where('users.u_id !=', 1);
+        $builder->where('subscriptions.validity_days', null);
+        return $builder->countAllResults();
+
+
+    }
+
+    //Expired Clients
+    public function countExpiredClients(){
+        $today = Time::today('Asia/Kolkata', 'en_IN');
+
+        $builder = $this->db->table('users');
+        $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
+        $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
+        $builder->where('users.u_id !=', 1);
+        $builder->where('subscriptions.status', 1);
+        $builder->where('subscriptions.ends_on <', $today);
+        return $builder->countAllResults();
+
+    }
+
+    //All Clients
+    public function countAllClients(){
+
+        $builder = $this->db->table('users');
+        $builder->select('*');
+        $builder->where('users.u_id !=', 1);
+        return $builder->countAllResults();
+
+    }
+
+    //Subscriptions
+    public function countAllTxn(){
+
+        $builder = $this->db->table('transactions');
+        return $builder->countAllResults();
+
+    }
+
+    //Packages
+    public function countAllPackages(){
+
+        $builder = $this->db->table('packages');
+        return $builder->countAllResults();
+
+    }
+
+    //Activation COdes
+    public function countAllActivationCodes(){
+
+        $builder = $this->db->table('activation_codes');
+        return $builder->countAllResults();
+
+    }
+
+    //Coupons
+    public function countAllCoupons(){
+
+        $builder = $this->db->table('coupons');
+        return $builder->countAllResults();
+
     }
 
 
@@ -47,72 +141,13 @@ class Dashboard extends AdminController
 
         $today = Time::today('Asia/Kolkata', 'en_IN');
 
-        // $subquery = $this->db->table('subscriptions')
-        //                 ->select('*')                       
-        //                 ->where('status', 1)
-        //                 ->where('ends_on <', $today)
-        //                 ->where('ends_on >=!', $today)
-        //                 ->countAllResults();
-
-        //                 echo $subquery;
-        //                 exit;
-            
-
-        // $builder = $this->db->table('users');
-        // $builder->select('users.name, users.email , users.mobile, users.status, (' . $subquery . ') as subscription');
-        // $builder->where('users.u_id !=', 1);
-        // $query = $builder->get();
-        // $total_count = $query->getResult();     
-
-
-        $hasRecord = $this->db->table('users')
-                            ->select('*')
-                            ->join('subscriptions', 'users.u_id = subscriptions.client_id')
-                            ->where('users.u_id !=', 1)
-                            ->groupBy('users.u_id')
-                            ->get();
-
-                if(count($hasRecord->getResult()) > 0){
-
-                //Check if active and expired record exists
-                $checkRecord = $this->db->table('users')
-                    ->select('*')
-                    ->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left')
-                    ->where('subscriptions.status >', 0)
-                    ->where('users.u_id !=', 1)
-                    ->groupBy('users.u_id')
-                    ->get();
-
-                //Records available are only pending
-                if(count($checkRecord->getResult()) == 0){
-
-
-                $builder = $this->db->table('users')
-                            ->select('users.name, users.mobile , users.email,users.status, subscriptions.status as subscription')
-                            ->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left')
-                            ->where('subscriptions.status <', 1)
-                            ->where('users.u_id !=', 1)
-                            ->groupBy('users.u_id')
-                            ->get();
-                $total_count = $builder->getResult();    
-
-                $builder = $this->db->table('users')
-                            ->select('users.name, users.mobile , users.email,users.status, subscriptions.status as subscription')
-                            ->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left')
-                            ->where('subscriptions.status <', 1)
-                            ->where('users.u_id !=', 1)
-                            ->groupBy('users.u_id')
-                            // ->limit($start, $length)
-                            ->get();
-
-                    
-
-                }
-
-
-               
-
-                $data = $builder->getResult();    
+        $builder = $this->db->table('transactions');
+        $builder->select('transactions.*,users.name, users.mobile');
+        $builder->join('users', 'transactions.client_id = users.u_id');
+        $builder->where('users.u_id !=', 1);
+        $query = $builder->get();
+        $data = $query->getResult();          
+        
 
                 echo "<pre>";
                 print_r($data);
@@ -129,7 +164,7 @@ class Dashboard extends AdminController
 
 
 
-    }}
+    }
 
 
 ?>

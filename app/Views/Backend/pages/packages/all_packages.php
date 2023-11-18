@@ -17,16 +17,15 @@
         </div><!-- /.container-fluid -->
     </section>
 
-    <?php
-$session = session(); ?>
+    <?php $session = session(); ?>
 
-    <script type="text/javascript">
-    <?php if($session->getFlashdata('success')): ?>
-    toastr.success('<?php echo $session->getFlashdata('success'); ?>')
-    <?php elseif($session->getFlashdata('error')): ?>
-    toastr.warning('<?php  foreach($session->getFlashdata('error') as $key => $value) {
-echo "$key: $value"."</br>";
-}  ?>');
+        <script type="text/javascript">
+        <?php if($session->getFlashdata('success')): ?>
+        toastr.success('<?php echo $session->getFlashdata('success'); ?>')
+        <?php elseif($session->getFlashdata('error')): ?>
+        toastr.warning('<?php  foreach($session->getFlashdata('error') as $key => $value) {
+        echo "$key: $value"."</br>";
+        }  ?>');
     <?php endif; ?>
     </script>
 

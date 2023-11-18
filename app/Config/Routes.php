@@ -52,6 +52,9 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Backend'] ,static funct
     //Dashboard
     $routes->get('dashboard', 'Dashboard::index', ['filter' => 'authadmin']);
 
+    //Add New Client
+    $routes->match(['get', 'post'], 'clients/add', 'ClientController::addClient', ['filter'=>'authadmin']);
+
     //All Clients
     $routes->get('allClients', 'ClientController::viewAllClients');
     $routes->post('clients/ajaxCallAllClients', 'ClientController::ajaxCallAllClients');
@@ -70,6 +73,19 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Backend'] ,static funct
 
     //View Client Page
     $routes->get('clients/view/(:alphanum)', 'ClientController::viewClient/$1', ['filter'=>'authadmin']);
+
+    //Update CLient Profile
+    $routes->post('clients/updateProfile', 'ClientController::updateClientProfile', ['filter'=>'authadmin']);    
+    
+    //Update CLient Subscription
+    $routes->post('clients/updateSubscription', 'ClientController::updateClientSubscription', ['filter'=>'authadmin']);
+    
+    //Update Password
+    $routes->post('clients/updatePassword', 'ClientController::updateClientPassword', ['filter'=>'authadmin']);
+
+    //All Transactions
+    $routes->get('transactions', 'TxnController::index', ['filter'=>'authadmin']);
+    $routes->post('transactions/ajaxCallAllTxn', 'TxnController::ajaxCallAllTxn');
 
 
     

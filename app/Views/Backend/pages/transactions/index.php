@@ -1,3 +1,18 @@
+<style>
+table.dataTable td {
+  font-size: 1em;
+}
+table.dataTable th {
+  font-size: 0.9em;
+}
+
+table.dataTable tr.dtrg-level-0 td {
+  font-size: 0.1em;
+}
+
+
+</style>
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -5,12 +20,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Active Subscriptions</h1>
+                    <h1>Transactions</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Clients</a></li>
-                        <li class="breadcrumb-item active">Active Subscriptons</li>
+                        <li class="breadcrumb-item"><a href="#">Transactions</a></li>
+                        <li class="breadcrumb-item active">Manage</li>
                     </ol>
                 </div>
             </div>
@@ -39,38 +54,48 @@
             <div class="col-md-12 col-12">
                 <div class="card card-outline card-info">
                     <div class="card-header">
-                        <h3 class="card-title">Active Subscriptions</h3>
+                        <h3 class="card-title">All Transactions</h3>
                         <div class="card-tools">
-                          <span><a href="<?= base_url('admin/dashboard') ?>" class="btn btn-outline-info btn-sm"><i class="fas fa-long-arrow-alt-left mr-1"></i>Back</a></span>
-
+                            <button type="button" class="btn btn-block btn-success btn-sm" data-toggle="modal"
+                                data-target="#modal-add">Add</button>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
 
                         <!-- Custom Filter -->
-                        <table class="float-right">
+                        <table class="float-right" >
                             <tr>
                                 <td>
                                     <select class="form-control form-control-sm" id='searchByStatus'>
                                         <option value=''>-- Status--</option>
-                                        <option value='1'>Active</option>
-                                        <option value='2'>Disabled</option>
+                                        <option value='1'>Pending</option>
+                                        <option value='2'>Success</option>
                                     </select>
                                 </td>
                             </tr>
                         </table>
 
 
-                        <table id="dataTable" class="table table-bordered table-striped table-hover">
+                        <table id="dataTable" class="table table-xs text-nowrap">
+                            
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>                
-                                    <th>Mobile</th>
-                                    <th>Email</th>
-                                    <th>Subscription</th>
+                                    <th>Txn ID</th>                
+                                    <th>Dated</th>
+                                    <th>Client</th>
+                                    <th>Number</th>
+                                    <th>Type</th>
+                                    <th>validity</th>
+                                    <th>Mode</th>
+                                    <th>Amt</th>
+                                    <th>Tax</th>
+                                    <th>Price</th>
+                                    <th>Discount</th>
+                                    <th>Package</th>
+                                    <th>Act Code</th>
+                                    <th>Coupon</th>
                                     <th>Status</th>
-                   
 
                                 </tr>
                             </thead>
@@ -85,8 +110,12 @@
 
     </section>
     <!-- /.content -->
+
+
+
+
+
 </div>
-<!-- /.content-wrapper -->
 
 
 
@@ -95,24 +124,24 @@ var site_url = "<?php echo site_url(); ?>";
 
 $(document).ready(function() {
 
-    var i = 1;
 
+  
     $("#memberTree").addClass('menu-open');
     $("#memberMenu").addClass('active');
     $("#memberSubMenuManage").addClass('active');
 
-
     var dataTable = $('#dataTable').DataTable({
+     
         lengthMenu: [
             [10, 30, -1],
             [10, 30, "All"]
         ], // page length options
         bProcessing: true,
         serverSide: true,
-        scrollY: "400px",
+        responsive: true,
         scrollCollapse: true,
         ajax: {
-            url: site_url + "/admin/clients/ajaxCallAllClientsActive", // json datasource
+            url: site_url + "/admin/transactions/ajaxCallAllTxn", // json datasource
             type: "post",
             data: function(data) {
                 // key1: value1 - in case if we want send data with request      
@@ -122,48 +151,70 @@ $(document).ready(function() {
             }
         },
         columns: [{
-            mRender: function(data, type, full, meta) {
-                    return i++;
-                }
+                data: "t_id"
+            },
+            {
+                data: "txn_id"
+            },
+            {
+                data: "created_at"
             },
             {
                 data: "name"
             },
             {
                 data: "mobile"
-            },
+            },   
             {
-                data: "email"
+                data: "txn_type"
+            },           
+            {
+                data: "plan_validity_days"
+            },           
+             {
+                data: "txn_mode"
+            },           
+             {
+                data: "net_amount"
+            },            
+            {
+                data: "tax_amt"
+            },           
+             {
+                data: "price"
+            },            
+            {
+                data: "discount_amt"
+            },            
+            {
+                data: "package_name"
+            },            
+            {
+                data: "activation_code"
+            },            
+            {
+                data: "coupon_code"
             },
             {
                 mRender: function(data, type, row) {
-                    if (row.subscription > 0) {
-                        return '<span class="badge bg-success">YES</span>';
+                    if (row.status == 2) {
+                        return '<span class="badge bg-success">Success</span>';
                     } else {
-                        return '<span class="badge bg-warning">NO</span>';
-                    }
-                }
-            },
-            {
-                mRender: function(data, type, row) {
-                    if (row.status == 1) {
-                        return '<span class="badge bg-success">ACTIVE</span>';
-                    } else {
-                        return '<span class="badge bg-warning">DISABLED</span>';
+                        return '<span class="badge bg-warning">Pending</span>';
                     }
                 }
             },
 
         ],
         columnDefs: [     
-
             {
                 orderable: false,
-                targets: [0, 1, 2, 3]
+                searchable: false,
+                targets: [0,1,4,5,6,7,8,9,10,11,12,13,14]
             },
             {
                 className: 'text-center',
-                targets: [1, 2, 3, 4, 5]
+                targets: [1, 2, 3, 4, 5,6]
             },
             {
                 "targets": [1, 2, 3, 4, 5],
@@ -171,9 +222,19 @@ $(document).ready(function() {
                     return data.toUpperCase();
                 },
             },
-
         ],
+        "order": [[ 1, 'asc' ]],
         bFilter: true, // to display datatable search
+
+        "drawCallback": function(settings) {
+            var api = this.api();
+            var startIndex = api.context[0]._iDisplayStart;
+
+            api.column(0).nodes().each(function(cell, i) {
+                cell.innerHTML = startIndex + i + 1;
+            });
+        }
+
     });
 
 
@@ -183,51 +244,7 @@ $(document).ready(function() {
 
 
 
-    // Handle the "Edit" button click event
-    $('#dataTable tbody').on('click', '.edit-button', function () {
-        var data = dataTable.row($(this).parents('tr')).data();
-        var edit_id = $(this).data('id');
-        var edit_name = $(this).data('name');
-        var edit_gender = $(this).data('gender');
-        var edit_email = $(this).data('email');
-        var edit_mobile = $(this).data('mobile');
-        var edit_type= $(this).data('type');
-        var edit_status= $(this).data('status');
-
-       $('#update_id').val(edit_id);
-       $('#idName').val(edit_name);
-       $('#idGender').val(edit_gender);
-       $('#idEmail').val(edit_email);
-       $('#idContact').val(edit_mobile);
-       $('#idStatus').val(edit_status);
-       $('#idType').val(edit_type);
-    });
-
-
-    
-    $('#modal-delete').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var todo_id = button.data('id')  
-      var todo_name = button.data('name')
-  
-      var modal = $(this)  
-      modal.find('.modal-body #del_id').val(todo_id)
-      modal.find('.modal-body #delName').text(todo_name)  
-
-    }); 
-
-
-
 
 });
-
-
-
-
-
-
-
-
-
 
 </script>

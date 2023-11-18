@@ -41,8 +41,8 @@
                     <div class="card-header">
                         <h3 class="card-title">All Clients</h3>
                         <div class="card-tools">
-                            <button type="button" class="btn btn-block btn-success btn-sm" data-toggle="modal"
-                                data-target="#modal-add">Add Client</button>
+                        <span><a href="<?= base_url('admin/dashboard') ?>" class="btn btn-outline-info btn-sm"><i class="fas fa-long-arrow-alt-left mr-1"></i>Back</a></span>
+
                         </div>
                     </div>
                     <div class="card-body">
@@ -70,8 +70,6 @@
                                     <th>Email</th>
                                     <th>Subscription</th>
                                     <th>Status</th>
-                                    <th>Action</th>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -151,12 +149,7 @@ $(document).ready(function() {
                     }
                 }
             },
-            {
-                mRender: function(data, type, row) {
-                    return '<a href="<?= base_url('admin/clients/view') ?>' + '/' + row.u_id +
-                            '" class="btn btn-outline-info btn-xs" >VIEW</a>'
-                }
-            },
+
         ],
         columnDefs: [     
 
@@ -167,7 +160,7 @@ $(document).ready(function() {
             },
             {
                 className: 'text-center',
-                targets: [1, 2, 3, 4, 5, 6]
+                targets: [1, 2, 3, 4, 5]
             },
             {
                 "targets": [1, 2, 3, 4, 5],

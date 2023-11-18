@@ -10,11 +10,17 @@ class Transaction extends Migration
     {
         $this->forge->addField([
 
-            'txn_id' => [
+            't_id' => [
                 'type' => 'INT',
                 'constraint'     => 32,
                 'auto_increment'=>true,
             ],         
+
+            'txn_id' => [
+                'type' => 'VARCHAR',
+                'constraint'=> '256',
+                'unique'=>true,
+            ],
 
             'client_id' => [
                 'type' => 'INT',
@@ -95,7 +101,7 @@ class Transaction extends Migration
             'updated_at datetime default current_timestamp on update current_timestamp',
         ]);
 
-        $this->forge->addPrimaryKey('txn_id');
+        $this->forge->addPrimaryKey('t_id');
         $this->forge->createTable('transactions');
     }
 
