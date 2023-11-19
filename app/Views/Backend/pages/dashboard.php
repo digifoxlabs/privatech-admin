@@ -247,7 +247,7 @@
 
     $(document).ready(function() {
 
-    $("#dashboardMenu").addClass('active');
+                 $("#dashboardMenu").addClass('active');
 
     });
 

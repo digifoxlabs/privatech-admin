@@ -11,14 +11,27 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Layout</a></li>
-                        <li class="breadcrumb-item active">Top Navigation</li>
+                        <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
+
+
+    
+    <?php $session = session(); ?>
+
+    <script type="text/javascript">
+    <?php if($session->getFlashdata('success')): ?>
+    toastr.success('<?php echo $session->getFlashdata('success'); ?>')
+    <?php elseif($session->getFlashdata('error')): ?>
+    toastr.warning('<?php  foreach($session->getFlashdata('error') as $key => $value) {
+echo "$key: $value"."</br>";
+}  ?>');
+    <?php endif; ?>
+    </script>
 
 
     <!-- Main content -->
@@ -294,77 +307,9 @@
             </div>
 
 
-            <div class="row">
-
-                <div class="col-lg-6">
-
-                    <div class="card card-primary card-outline">
-                        <div class="card-header">
-                            <h5 class="card-title m-0">Devices Registered</h5>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Devices</h5>
-
-                            <p class="card-text">
-                                Some quick example text to build.
-                            </p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
-                        </div>
-                    </div><!-- /.card -->
-
-                    <div class="card card-primary card-outline">
-                        <div class="card-header">
-                            <h5 class="card-title m-0">Subscriptions</h5>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Active</h5>
-
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk of the card's
-                                content.
-                            </p>
-                            <a href="#" class="btn-primary btn-sm">Buy Now</a>
-                        </div>
-                    </div><!-- /.card -->
 
 
-                </div>
 
-                <!-- /.col-md-6 -->
-                <div class="col-lg-6">
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title m-0">Featured</h5>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="card-title">Special title treatment</h6>
-
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-
-                    <div class="card card-primary card-outline">
-                        <div class="card-header">
-                            <h5 class="card-title m-0">Featured</h5>
-                        </div>
-                        <div class="card-body">
-                            <h6 class="card-title">Special title treatment</h6>
-
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.col-md-6 -->
-
-
-            </div>
-            <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
@@ -453,22 +398,12 @@ $(document).ready(function() {
     $('#mobile-part').hide();
     $('#emailBtn').hide();
 
-    $(".info-box").click(function() {
-
-        $("#modal-password").modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-
-    });
 
     $("#modal-password").on("hidden.bs.modal", function() {
         $('#passwordForm')[0].reset();
     });
 
 });
-
-
 
 
 function resetPasswordForm() {

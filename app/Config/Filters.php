@@ -11,6 +11,7 @@ use CodeIgniter\Filters\SecureHeaders;
 
 use App\Filters\Authadmin;
 use App\Filters\Authclient;
+use App\Filters\NoAuthclient;
 
 class Filters extends BaseConfig
 {
@@ -30,6 +31,7 @@ class Filters extends BaseConfig
         'secureheaders' => SecureHeaders::class,
         "authadmin"     => Authadmin::class,
         "authclient"     => Authclient::class,
+        "noauthclient"   => NoAuthclient::class,
     ];
 
     /**

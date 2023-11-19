@@ -446,6 +446,88 @@ class HomeController extends FrontendController
     }
 
 
+    //UPdate Profile by Client
+    public function profile(){
+
+        $logged_user = session()->get('id');
+        $userModel = new UserModel();
+
+        if ($this->request->getMethod() == 'post') {
+
+            $rules = [
+                'name' => 'required|trim',
+                'email' => 'required|trim|valid_email|is_unique[users.email,u_id,'.$logged_user.']',
+                'mobile' => 'trim|min_length[10]|max_length[10]|required|numeric|is_unique[users.mobile,u_id,'.$logged_user.']',    
+            ];
+            $errors = [
+      
+                'name' => [
+                    'required' => "Name is Required",
+                ], 
+                'email'=>[
+                    'required'=>'Email is required',
+                    'valid_email'=>'Enter a valid email',
+                    'is_unique'=>'Email already taken',
+                ],
+                'mobile'=>[
+                    'required'=> "10 digit mobile number",
+                    'min_length'=>'Enter 10 digit mobile number',
+                    'max_length'=>'Enter10 digit mobile number',
+                    'is_unique'=>'Mobile no already taken',
+                ],                        
+            ];
+
+
+            if (!$this->validate($rules,$errors)) {
+                $data['validation'] = $this->validator;
+                $data['client_data'] = $userModel->where('u_id',$logged_user)->first();  
+                $this->render_view('Frontend/pages/profile',$data);  
+                // return redirect()->to(base_url('profile'));
+  
+
+            }else {
+
+
+                $data = [
+                    'u_id' => $logged_user,
+                    'name' => strtoupper($this->request->getVar('name')),
+                    'email' => $this->request->getVar('email'),
+                    'mobile' => $this->request->getVar('mobile'),
+                  
+                ];
+    
+                $userModel->save($data);
+                $session = session();
+                $session->setFlashdata('success', 'Profile Updated');
+                return redirect()->to(base_url('profile'));
+
+
+
+            }
+
+
+
+        }
+
+        else {
+           
+            
+
+            $data = array( 
+                
+                'pageTitle' => 'PRIVATECH-PROFILE',
+                'client_data'=>$userModel->where('u_id',$logged_user)->first(),   
+                                                      
+
+            );      
+                
+                $this->render_view('Frontend/pages/profile',$data); 
+
+
+        }
+    }
+
+
 
 
 

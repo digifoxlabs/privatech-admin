@@ -315,9 +315,9 @@ var site_url = "<?php echo site_url(); ?>";
 
 $(document).ready(function() {
 
-    $("#memberTree").addClass('menu-open');
-    $("#memberMenu").addClass('active');
-    $("#memberSubMenuManage").addClass('active');
+    $("#packageTree").addClass('menu-open');
+    $("#packageMenu").addClass('active');
+    $("#packageSubMenuCoupons").addClass('active');
 
     var i = 1;
 

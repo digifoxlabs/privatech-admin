@@ -30,19 +30,26 @@ class SettingsController extends AdminController
 
         if(!is_null($settings_data)) {
             // Map to data
+            $store= array();
+
             foreach($settings_data as $value_settings) {
                 if (!array_key_exists($value_settings['key'], $data)) {
                     $data['id'] = $value_settings['id'];
                     $data[$value_settings['key']] = $value_settings['value'];
+
+                    array_push($store, $data);
                 }
             }
-            unset($value_stores);
+            unset($settings_data);
         }
 
-        // print_r($data);
+        // echo "<pre>";
+        // print_r($store[0]['id']);
         // exit;
 
-        $this-> render_view("Backend/pages/settings",$data);
+        $data = array('settings'=>$store,);
+
+        $this-> render_view("Backend/pages/settings", $data);
     }
 
 

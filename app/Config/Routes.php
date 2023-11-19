@@ -13,7 +13,7 @@ $routes->get('send-fcm', 'FCMController::sendNotification');
 
 
 //FrontEnd Routes
-$routes->get('/', 'Frontend\HomeController::index');
+$routes->get('/', 'Frontend\HomeController::index', ['filter' => 'noauthclient']);
 $routes->get('/login', 'Frontend\HomeController::optionforLogin');
 $routes->get('/login/password', 'Frontend\ClientAuthenticate::passwordLogin');
 $routes->get('/login/otp', 'Frontend\ClientAuthenticate::otpLogin');
@@ -37,10 +37,27 @@ $routes->get('/client/logout', 'Frontend\ClientAuthenticate::logout');
 //AJAX POSTS
 $routes->match(['get', 'post'],'check/user', 'Frontend\ClientAuthenticate::check_user');
 
+//Profile Update by Client
+$routes->match(['get', 'post'],'/profile', 'Frontend\HomeController::profile', ['filter' => 'authclient']);
+
+//Subscription
+$routes->get('/subscription', 'Frontend\SubscriptionController::index', ['filter' => 'authclient']);
+$routes->get('/subscription/packages', 'Frontend\SubscriptionController::packages', ['filter' => 'authclient']);
+
+//Purchase
+$routes->get('subscription/purchase/(:alphanum)', 'Frontend\SubscriptionController::purchasePackage/$1', ['filter'=>'authclient']);
+
+$routes->match(['get', 'post'],'subscription/pay', 'Frontend\SubscriptionController::checkout', ['filter' => 'authclient']);
+
+$routes->post('subscription/paymentStatus', 'Frontend\SubscriptionController::checkPaymentStatus', ['filter' => 'authclient']);
 
 
-//Admin Routes
 
+
+/**
+ * Admin Routes
+ * 
+ */
 $routes->group('admin', ['namespace' => 'App\Controllers\Backend'] ,static function ($routes) {
 
     $routes->get("/", 'Dashboard::index', ['filter' => 'authadmin']);

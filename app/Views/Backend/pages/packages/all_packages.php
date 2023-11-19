@@ -245,7 +245,7 @@
                                 <div class="form-group input-group-sm">
 
                                     <label for="amount">Amount</label>
-                                    <input type="number" class="form-control" name="amount" id="idAmount" placeholder="Amount"
+                                    <input type="number" class="form-control net-amt" name="amount" id="idAmount" placeholder="Amount"
                                         required autocomplete="off">
 
                                 </div>
@@ -257,8 +257,8 @@
 
                                 <div class="form-group input-group-sm">
                                     <label for="amount">Tax (<?= $gst_rate; ?>%)</label>
-                                    <input type="number" class="form-control" name="tax" id="idTax" placeholder="Tax amount"
-                                        required autocomplete="off">
+                                    <input type="number" class="form-control tax-amt" name="tax" id="idTax" placeholder="Tax amount"
+                                        required readonly>
                                 </div>
 
 
@@ -271,8 +271,8 @@
                                 <div class="form-group input-group-sm">
 
                                     <label for="amount">Price</label>
-                                    <input type="number" class="form-control" name="price" id="idPrice" placeholder="Price" required
-                                        autocomplete="off">
+                                    <input type="number" class="form-control price-amt" name="price" id="idPrice" placeholder="Price" required
+                                        readonly>
 
                                 </div>
 
@@ -349,9 +349,9 @@ var site_url = "<?php echo site_url(); ?>";
 
 $(document).ready(function() {
 
-    $("#memberTree").addClass('menu-open');
-    $("#memberMenu").addClass('active');
-    $("#memberSubMenuManage").addClass('active');
+    $("#packageTree").addClass('menu-open');
+    $("#packageMenu").addClass('active');
+    $("#packageSubMenuManage").addClass('active');
 
     var i = 1;
 

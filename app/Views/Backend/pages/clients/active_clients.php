@@ -97,9 +97,9 @@ $(document).ready(function() {
 
     var i = 1;
 
-    $("#memberTree").addClass('menu-open');
-    $("#memberMenu").addClass('active');
-    $("#memberSubMenuManage").addClass('active');
+    $("#clientTree").addClass('menu-open');
+    $("#clientMenu").addClass('active');
+    $("#clientSubMenuActive").addClass('active');
 
 
     var dataTable = $('#dataTable').DataTable({

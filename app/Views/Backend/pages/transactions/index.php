@@ -125,10 +125,7 @@ var site_url = "<?php echo site_url(); ?>";
 $(document).ready(function() {
 
 
-  
-    $("#memberTree").addClass('menu-open');
-    $("#memberMenu").addClass('active');
-    $("#memberSubMenuManage").addClass('active');
+    $("#transactionMenu").addClass('active');
 
     var dataTable = $('#dataTable').DataTable({
      

@@ -1,5 +1,5 @@
 <div class="content-wrapper">
-<?php  $session = session(); ?>
+    <?php  $session = session(); ?>
     <!-- Content Header (Page header) -->
     <div class="content-header mb-4">
         <div class="container-fluid">
@@ -21,7 +21,7 @@
 
     <section class="content">
         <div class="container-fluid">
-           
+
             <script type="text/javascript">
             <?php if($session->getFlashdata('success')): ?>
             toastr.success('<?php echo $session->getFlashdata('success'); ?>')
@@ -30,132 +30,130 @@
             <?php endif; ?>
             </script>
 
-<div class="row">
-   
-    <div class="col-sm-6 col-md-4">
-        <!-- Horizontal Form -->
-        <div class="card card-primary">
-            <div class="card-header bg-lightblue">
-                <h3 class="card-title">GST Rate</h3>
-            </div>
-            <!-- /.card-header -->
-            <!-- form start -->
-            <form class="form-horizontal" method="POST" action="">
+            <div class="row">
 
-                <div class="card-body">                    
-                    <input type="hidden" name="id" value="<?= $id; ?>">
-                    <div class="form-group">
-                    <label for="exampleInputEmail1">Site Title</label>
-                    <input type="text" class="form-control" name="value" value="<?= $site_title; ?>" >
+                <div class="col-sm-6 col-md-4">
+                    <!-- Horizontal Form -->
+                    <div class="card card-primary">
+                        <div class="card-header bg-lightblue">
+                            <h3 class="card-title">Site Title</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form class="form-horizontal" method="POST" action="">
+
+                            <div class="card-body">
+                                <input type="hidden" name="id" value="<?= $settings[0]['id']; ?>">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Site Title</label>
+                                    <input type="text" class="form-control" name="value" value="<?= $settings[0]['site_title']; ?>">
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-default float-right">Save</button>
+                            </div>
+                            <!-- /.card-footer -->
+                        </form>
                     </div>
+                    <!-- /.card -->
                 </div>
-                <!-- /.card-body -->
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-default float-right">Save</button>
-                </div>
-                <!-- /.card-footer -->
-            </form>
-        </div>
-        <!-- /.card -->
-    </div>   
 
 
-    <div class="col-sm-6 col-md-4">
-        <!-- Horizontal Form -->
-        <div class="card card-primary">
-            <div class="card-header bg-lightblue">
-                <h3 class="card-title">Site Footer</h3>
-            </div>
-            <!-- /.card-header -->
-            <!-- form start -->
-            <form class="form-horizontal" method="POST" action="">
+                <div class="col-sm-6 col-md-4">
+                    <!-- Horizontal Form -->
+                    <div class="card card-primary">
+                        <div class="card-header bg-lightblue">
+                            <h3 class="card-title">Site Footer</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form class="form-horizontal" method="POST" action="">
 
-                <div class="card-body">                    
-                    <input type="hidden" name="id" value="<?= $id; ?>">
-                    <div class="form-group">
-                    <label for="exampleInputEmail1">Site Footer</label>
-                    <input type="text" class="form-control" name="value" value="<?= $site_footer; ?>" >
+                            <div class="card-body">
+                                <input type="hidden" name="id" value="<?= $settings[1]['id']; ?>">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Site Footer</label>
+                                    <input type="text" class="form-control" name="value" value="<?= $settings[1]['site_footer']; ?>">
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-default float-right">Save</button>
+                            </div>
+                            <!-- /.card-footer -->
+                        </form>
                     </div>
+                    <!-- /.card -->
                 </div>
-                <!-- /.card-body -->
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-default float-right">Save</button>
-                </div>
-                <!-- /.card-footer -->
-            </form>
-        </div>
-        <!-- /.card -->
-    </div>
 
-    <div class="col-sm-6 col-md-4">
-        <!-- Horizontal Form -->
-        <div class="card card-primary">
-            <div class="card-header bg-lightblue">
-                <h3 class="card-title">GST Rate</h3>
-            </div>
-            <!-- /.card-header -->
-            <!-- form start -->
-            <form class="form-horizontal" method="POST" action="">
+                <div class="col-sm-6 col-md-4">
+                    <!-- Horizontal Form -->
+                    <div class="card card-primary">
+                        <div class="card-header bg-lightblue">
+                            <h3 class="card-title">GST Rate</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form class="form-horizontal" method="POST" action="">
 
-                <div class="card-body">                    
-                    <input type="hidden" name="id" value="<?= $id; ?>">
-                    <div class="form-group">
-                    <label for="exampleInputEmail1">GST Rate</label>
-                    <input type="text" class="form-control" name="value" value="<?= $gst_rate; ?>" >
+                            <div class="card-body">
+                                <input type="hidden" name="id" value="<?= $settings[2]['id']; ?>">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">GST Rate</label>
+                                    <input type="text" class="form-control" name="value" value="<?= $settings[2]['gst_rate']; ?>">
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-default float-right">Save</button>
+                            </div>
+                            <!-- /.card-footer -->
+                        </form>
                     </div>
+                    <!-- /.card -->
                 </div>
-                <!-- /.card-body -->
-                <div class="card-footer">
-                    <button type="submit" class="btn btn-default float-right">Save</button>
-                </div>
-                <!-- /.card-footer -->
-            </form>
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
         </div>
-        <!-- /.card -->
-    </div>
-       
-
-    
 
 
 
 
-
-
-
-
-    </div>
-    
-    
-    
-    
-    
-    
-    
 
 </div>
-
-
-
-
-
-        </div>
-    </section>
+</section>
 </div>
 
 <script>
 $(document).ready(function() {
 
 
-    $("#productTree").addClass('menu-open');
-    $("#productMenu").addClass('active');
-    $("#productSubMenuManage").addClass('active');
-    
-      //Bootstrap Switch Mode    
-//     $("input[data-bootstrap-switch]").each(function(){
-//      $(this).bootstrapSwitch('state', $(this).prop('checked'));
-//    });
-    
+    $("#settingsMenu").addClass('active');
+
+    //Bootstrap Switch Mode    
+    //     $("input[data-bootstrap-switch]").each(function(){
+    //      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    //    });
+
 
 
 

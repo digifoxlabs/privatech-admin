@@ -12,7 +12,9 @@ class SettingsModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ["key", "value"];
+    protected $allowedFields    = [
+        'id','key','value'
+    ];
 
     // Dates
     protected $useTimestamps = false;
