@@ -5,6 +5,7 @@ namespace App\Controllers\Frontend;
 use App\Controllers\FrontendController;
 // Load Model
 use App\Models\UserModel;
+use App\Models\ClientModel;
 use App\Models\OTPModel;
 
 
@@ -20,7 +21,8 @@ class ClientAuthenticate extends FrontendController
     }
 
 
-    public function check_user(){
+    //Check Client New/Exiting
+    public function checkClient(){
 
         if ($this->request->getMethod() == 'post') {
 
@@ -68,7 +70,7 @@ class ClientAuthenticate extends FrontendController
             } else {  //ELse No error proceed
 
 
-                $model = new UserModel();
+                $model = new ClientModel();
                 $session = session();
           
                 //Delete existing session
@@ -122,7 +124,7 @@ class ClientAuthenticate extends FrontendController
     }
 
 
-    //Password Login
+    //Login with Password
     public function passwordLogin(){
 
 
@@ -161,7 +163,7 @@ class ClientAuthenticate extends FrontendController
 
                   $rules = [
                     'user_id' => 'required|min_length[10]|max_length[10]|is_natural',
-                    'password' => 'required|min_length[3]|max_length[255]|validateUserwithMobile[user_id,password]',
+                    'password' => 'required|min_length[3]|max_length[255]|validateClientwithMobile[user_id,password]',
                 ];
 
                 $errors = [
@@ -171,7 +173,7 @@ class ClientAuthenticate extends FrontendController
                         'max_length'=> "Enter 10 digit Mobile no.",
                     ],
                     'password' => [
-                        'validateUserwithMobile' => "Credentials do not match",
+                        'validateClientwithMobile' => "Credentials do not match",
                     ],
                 ];
 
@@ -180,7 +182,7 @@ class ClientAuthenticate extends FrontendController
 
                 $rules = [
                     'user_id' => 'required|min_length[3]|max_length[50]|valid_email',
-                    'password' => 'required|min_length[3]|max_length[255]|validateUserwithEmail[user_id,password]',
+                    'password' => 'required|min_length[3]|max_length[255]|validateClientwithEmail[user_id,password]',
                 ];
 
                 $errors = [
@@ -189,7 +191,7 @@ class ClientAuthenticate extends FrontendController
                         'valid_email'=> "Enter Valid Email"
                     ],
                     'password' => [
-                        'validateUserwithEmail' => "Credentials do not match",
+                        'validateClientwithEmail' => "Credentials do not match",
                     ],
                 ];
 
@@ -198,31 +200,24 @@ class ClientAuthenticate extends FrontendController
 
             if (!$this->validate($rules, $errors)) {
 
-                // return view('Frontend/pages/login_password', [
-                //     "validation" => $this->validator,'pageTitle' => 'Login',
-                // ]);
-
                 $data['validation'] = $this->validator;   
                 $this->render_view('Frontend/pages/login_password',$data);     
 
 
             } else {  //ELse No error proceed login
                 
-                $model = new UserModel();
-               // $array = array('email' => $this->request->getVar('email'), 'status'=> 1);
+                $model = new ClientModel();
 
                if(is_numeric($userInput)){  //Mobile Login
 
                     $user = $model->where('mobile', $userInput)
                     ->where('status', '1')
-                    ->where('u_id !=' , '1')
                     ->first();
                }
                else {   //Email Login
    
                 $user = $model->where('email', $userInput)
                                 ->where('status', '1')
-                                ->where('u_id !=' , '1')
                                 ->first();
                }
 
@@ -255,7 +250,7 @@ class ClientAuthenticate extends FrontendController
     }
 
 
-    //Otp Login
+    //Login with Otp Page
     public function otpLogin(){
 
 
@@ -381,21 +376,19 @@ class ClientAuthenticate extends FrontendController
 
             } else {  //ELse No error proceed login
                 
-                $model = new UserModel();
+                $model = new ClientModel();
                // $array = array('email' => $this->request->getVar('email'), 'status'=> 1);
 
                if(is_numeric($userInput)){  //Mobile Login
 
                     $user = $model->where('mobile', $userInput)
                     ->where('status', '1')
-                    ->where('u_id !=' , '1')
                     ->first();
                }
                else {   //Email Login
    
                 $user = $model->where('email', $userInput)
                                 ->where('status', '1')
-                                ->where('u_id !=' , '1')
                                 ->first();
                }
 
@@ -442,7 +435,7 @@ class ClientAuthenticate extends FrontendController
 
                   $rules = [
                     'user_id' => 'required|min_length[10]|max_length[10]|is_natural',
-                    'password' => 'required|min_length[3]|max_length[255]|validateUserwithMobile[user_id,password]',
+                    'password' => 'required|min_length[3]|max_length[255]|validateClientwithMobile[user_id,password]',
                 ];
 
                 $errors = [
@@ -452,7 +445,7 @@ class ClientAuthenticate extends FrontendController
                         'max_length'=> "Enter 10 digit Mobile no.",
                     ],
                     'password' => [
-                        'validateUserwithMobile' => "Credentials do not match",
+                        'validateClientwithMobile' => "Credentials do not match",
                     ],
                 ];
 
@@ -461,7 +454,7 @@ class ClientAuthenticate extends FrontendController
 
                 $rules = [
                     'user_id' => 'required|min_length[3]|max_length[50]|valid_email',
-                    'password' => 'required|min_length[3]|max_length[255]|validateUserwithEmail[user_id,password]',
+                    'password' => 'required|min_length[3]|max_length[255]|validateClientwithEmail[user_id,password]',
                 ];
 
                 $errors = [
@@ -470,7 +463,7 @@ class ClientAuthenticate extends FrontendController
                         'valid_email'=> "Enter Valid Email"
                     ],
                     'password' => [
-                        'validateUserwithEmail' => "Credentials do not match",
+                        'validateClientwithEmail' => "Credentials do not match",
                         'min_length'=>'Password is too short'
                     ],
                 ];
@@ -486,21 +479,19 @@ class ClientAuthenticate extends FrontendController
 
             } else {  //ELse No error proceed login
                 
-                $model = new UserModel();
+                $model = new ClientModel();
                // $array = array('email' => $this->request->getVar('email'), 'status'=> 1);
 
                if(is_numeric($userInput)){  //Mobile Login
 
                     $user = $model->where('mobile', $userInput)
                     ->where('status', '1')
-                    ->where('u_id !=' , '1')
                     ->first();
                }
                else {   //Email Login
    
                 $user = $model->where('email', $userInput)
                                 ->where('status', '1')
-                                ->where('u_id !=' , '1')
                                 ->first();
                }
 
@@ -539,11 +530,10 @@ class ClientAuthenticate extends FrontendController
     private function setUserSession($user)
     {
         $data = [
-            'id' => $user['u_id'],
+            'id' => $user['cl_id'],
             'name' => $user['name'],
             'mobile' => $user['mobile'],
             'email' => $user['email'],
-            'user_type' => $user['user_type'],
             'isLoggedInClient' => true,
         ];
 

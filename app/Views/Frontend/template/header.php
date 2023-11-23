@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>PRIVATECH</title>
+    <title><?= $pageTitle; ?></title>
     <!-- <link rel="icon" type="image/x-icon" href="<?= base_url('public/assets/frontend/images/favicon-32x32.png') ?>"> -->
     <link rel="apple-touch-icon" sizes="180x180" href="<?= base_url('public/assets/frontend/images/favicon/apple-touch-icon.png') ?>">
 <link rel="icon" type="image/png" sizes="32x32" href="<?= base_url('public/assets/frontend/images/favicon/favicon-32x32.png') ?>">

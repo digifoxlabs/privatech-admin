@@ -44,10 +44,10 @@ class FrontendController extends BaseController
 
         // Send email
         if ($email->send()) {
-            echo 'Email successfully sent, please check.';
+          //  echo 'Email successfully sent, please check.';
         } else {
-            $data = $email->printDebugger(['headers']);
-            print_r($data);
+            // $data = $email->printDebugger(['headers']);
+            // print_r($data);
         }
 
 

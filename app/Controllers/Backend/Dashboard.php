@@ -41,10 +41,9 @@ class Dashboard extends AdminController
 
         $today = Time::today('Asia/Kolkata', 'en_IN');
 
-        $builder = $this->db->table('users');
-        $builder->select('users.u_id,users.name, users.mobile , users.email, users.status, subscriptions.status as subscription');
-        $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-        $builder->where('users.u_id !=', 1);
+        $builder = $this->db->table('clients');
+        $builder->select('clients.cl_id,clients.name, clients.mobile , clients.email, clients.status, subscriptions.status as subscription');
+        $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
         $builder->where('subscriptions.status', 1);
         $builder->where('subscriptions.ends_on >=', $today);
         return $builder->countAllResults();
@@ -53,10 +52,9 @@ class Dashboard extends AdminController
     //Pending Clients
     public function countPendingClients(){
 
-        $builder = $this->db->table('users');
-        $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-        $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-        $builder->where('users.u_id !=', 1);
+        $builder = $this->db->table('clients');
+        $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+        $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
         $builder->where('subscriptions.validity_days', null);
         return $builder->countAllResults();
 
@@ -67,10 +65,9 @@ class Dashboard extends AdminController
     public function countExpiredClients(){
         $today = Time::today('Asia/Kolkata', 'en_IN');
 
-        $builder = $this->db->table('users');
-        $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-        $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-        $builder->where('users.u_id !=', 1);
+        $builder = $this->db->table('clients');
+        $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+        $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
         $builder->where('subscriptions.status', 1);
         $builder->where('subscriptions.ends_on <', $today);
         return $builder->countAllResults();
@@ -80,9 +77,8 @@ class Dashboard extends AdminController
     //All Clients
     public function countAllClients(){
 
-        $builder = $this->db->table('users');
+        $builder = $this->db->table('clients');
         $builder->select('*');
-        $builder->where('users.u_id !=', 1);
         return $builder->countAllResults();
 
     }

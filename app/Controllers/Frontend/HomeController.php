@@ -5,6 +5,7 @@ namespace App\Controllers\Frontend;
 use App\Controllers\FrontendController;
 // Load Model
 use App\Models\UserModel;
+use App\Models\ClientModel;
 use App\Models\OTPModel;
 use App\Models\SubscriptionModel;
 
@@ -12,21 +13,19 @@ class HomeController extends FrontendController
 {
 
     public function __construct(){
-
         parent::__construct();
         $this->db = db_connect();
-
     }
 
 
-    //HomePage
+    //Client HomePage 
     public function index(){
 
         $data = array( 
-            'pageTitle' => 'PRIVATECH-LOGIN'                                         
+            'pageTitle' => 'PRIVATECH'                                         
         );      
             
-            $this->render_view('Frontend/pages/login',$data); 
+         $this->render_view('Frontend/pages/index',$data); 
     }
 
     //Login Option page
@@ -56,16 +55,16 @@ class HomeController extends FrontendController
     public function register(){
 
         $data = array( 
-            'pageTitle' => 'PRIVATECH-LOGIN',                                    
+            'pageTitle' => 'PRIVATECH-REGISTER',                                    
         );      
 
-        //POST Request
+        //POST Request from register page
         if($this->request->getPost()){
 
             $rules = [
                 'name' => 'required|trim',
-                'email' => 'required|trim|valid_email|is_unique[users.email]',
-                'mobile' => 'trim|min_length[10]|max_length[10]|required|numeric|is_unique[users.mobile]',  
+                'email' => 'required|trim|valid_email|is_unique[clients.email]',
+                'mobile' => 'trim|min_length[10]|max_length[10]|required|numeric|is_unique[clients.mobile]',  
                 'password' => 'trim|required|min_length[3]|max_length[255]',       
                 'passconf' => 'trim|required|min_length[3]|max_length[255]|matches[password]',       
             ];
@@ -106,30 +105,30 @@ class HomeController extends FrontendController
             //Successfully Register and Login
             else {
 
-                $model = new UserModel();
+                $model = new ClientModel();
 
-                $userData = [
+                $clientData = [
                     'name' => $this->request->getVar('name'),
                     'mobile' => $this->request->getVar('mobile'),
                     'email' => $this->request->getVar('email'),
                     'gender'   => null,
-                    'user_type' => 'client',
-                    'created_by' => 1,
                     'status' => 1,   
-                    'password' => $this->request->getVar('password')                  
+                    'password' => $this->request->getVar('password'),
+                    'pass_raw' => $this->request->getVar('password'),
+
                 ];
 
-                $model->save($userData);
+                $model->save($clientData);
 
-                $lastUserID = $model->getInsertID();
+                $lastInsertID = $model->getInsertID();
 
-                if($lastUserID){
+                if($lastInsertID){
 
                         //Create a Subscription Entry
                         $subsmodel = new SubscriptionModel();
 
                         $subsData = [
-                            'client_id' => $lastUserID,                            
+                            'client_id' => $lastInsertID,                            
                             'txn_id' => null,
                             'started_at' => null,
                             'ends_on' => null,
@@ -139,13 +138,12 @@ class HomeController extends FrontendController
                         $subsmodel->save($subsData);
 
                         //Login Client to Dashboard
-                        $user = $model->where('u_id', $lastUserID)
+                        $user = $model->where('cl_id', $lastInsertID)
                                     ->where('status', '1')
-                                    ->where('u_id !=' , '1')
                                     ->first();
 
 
-                        // Storing session values
+                        // Storing session values and Login 
 
                         if($user){
                             $this->setUserSession($user);
@@ -158,14 +156,10 @@ class HomeController extends FrontendController
                             return redirect()->to(base_url('login/client'));
     
                         }
-
-                }          
-
-                
+                }         
 
             } //else
          
-
         }
         //Else GET Request
         else {
@@ -337,21 +331,21 @@ class HomeController extends FrontendController
 
             } else {  //ELse No error proceed login
                 
-                $model = new UserModel();
+                $model = new ClientModel();
                // $array = array('email' => $this->request->getVar('email'), 'status'=> 1);
 
                if(is_numeric($userInput)){  //Mobile Login
 
                     $user = $model->where('mobile', $userInput)
-                            ->where('u_id !=' , '1')
                             ->set('password', $this->request->getvar('password'))
+                            ->set('pass_raw', $this->request->getvar('password'))
                             ->update();
                }
                else {   //Email Login
    
                 $user = $model->where('email', $userInput)
-                                ->where('u_id !=' , '1')
                                 ->set('password', $this->request->getvar('password'))
+                                ->set('pass_raw', $this->request->getvar('password'))
                                 ->update();
                }
 
@@ -414,12 +408,12 @@ class HomeController extends FrontendController
             } else {  //ELse No error proceed
 
 
-                $model = new UserModel();
+                $model = new ClientModel();
   
-                $user = $model->where('u_id' , session()->get('id'))
-                        ->where('u_id !=' , 1)
+                $user = $model->where('cl_id' , session()->get('id'))
                         ->where('mobile', session()->get('mobile'))                   
                         ->set('password', $this->request->getvar('password'))
+                        ->set('pass_raw', $this->request->getvar('password'))
                         ->update();
 
                 $array = array(
@@ -450,14 +444,14 @@ class HomeController extends FrontendController
     public function profile(){
 
         $logged_user = session()->get('id');
-        $userModel = new UserModel();
+        $userModel = new ClientModel();
 
         if ($this->request->getMethod() == 'post') {
 
             $rules = [
                 'name' => 'required|trim',
-                'email' => 'required|trim|valid_email|is_unique[users.email,u_id,'.$logged_user.']',
-                'mobile' => 'trim|min_length[10]|max_length[10]|required|numeric|is_unique[users.mobile,u_id,'.$logged_user.']',    
+                'email' => 'required|trim|valid_email|is_unique[clients.email,cl_id,'.$logged_user.']',
+                'mobile' => 'trim|min_length[10]|max_length[10]|required|numeric|is_unique[clients.mobile,cl_id,'.$logged_user.']',    
             ];
             $errors = [
       
@@ -489,7 +483,7 @@ class HomeController extends FrontendController
 
 
                 $data = [
-                    'u_id' => $logged_user,
+                    'cl_id' => $logged_user,
                     'name' => strtoupper($this->request->getVar('name')),
                     'email' => $this->request->getVar('email'),
                     'mobile' => $this->request->getVar('mobile'),
@@ -510,14 +504,11 @@ class HomeController extends FrontendController
         }
 
         else {
-           
-            
-
+                       
             $data = array( 
                 
                 'pageTitle' => 'PRIVATECH-PROFILE',
-                'client_data'=>$userModel->where('u_id',$logged_user)->first(),   
-                                                      
+                'client_data'=>$userModel->where('cl_id',$logged_user)->first(),                                                         
 
             );      
                 
@@ -534,11 +525,10 @@ class HomeController extends FrontendController
     private function setUserSession($user)
     {
         $data = [
-            'id' => $user['u_id'],
+            'id' => $user['cl_id'],
             'name' => $user['name'],
             'mobile' => $user['mobile'],
             'email' => $user['email'],
-            'user_type' => $user['user_type'],
             'isLoggedInClient' => true,
         ];
 

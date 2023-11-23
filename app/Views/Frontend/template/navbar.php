@@ -34,7 +34,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
-                        <?php if(session()->get('user_type') == 'client') { ?>
+                        <?php if(session()->get('isLoggedInClient')) { ?>
                            
                             <div class="dropdown-divider"></div>
 

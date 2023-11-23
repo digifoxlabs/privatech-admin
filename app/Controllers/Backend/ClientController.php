@@ -4,7 +4,7 @@ namespace App\Controllers\Backend;
 
 use App\Controllers\AdminController;
 use CodeIgniter\I18n\Time;
-use App\Models\UserModel;
+use App\Models\ClientModel;
 use App\Models\SubscriptionModel;
 use App\Models\TransactionModel;
 
@@ -49,14 +49,14 @@ class ClientController extends AdminController
     //View Client page
     public function viewClient($client_id){
 
-        $userModel = new UserModel();
+        $ClientModel = new ClientModel();
         $subsModel = new SubscriptionModel();
         $txnModel = new TransactionModel();
 
         $data = array(            
             'client_id'=>$client_id,
             'subs_status'=>$this->getSubStatus($client_id),
-            'client_data'=>$userModel->where('u_id',$client_id)->first(),        
+            'client_data'=>$ClientModel->where('u_id',$client_id)->first(),        
             'subscription_data'=>$subsModel->where('client_id',$client_id)->first(),        
             'txn_data'=>$txnModel->where('client_id',$client_id)->get()->getResultArray(),        
         
@@ -120,7 +120,7 @@ class ClientController extends AdminController
 
                 $logged_user = session()->get('id');
 
-                $model = new UserModel();
+                $model = new ClientModel();
 
                 $userData = [
                     'name' => $this->request->getVar('name'),
@@ -152,16 +152,11 @@ class ClientController extends AdminController
                             'status' => 2, //1 Active | 2 Pending                       
                         ];
                         $subsmodel->save($subsData);
-
-
                         $session = session();
                         $session->setFlashdata('success', 'User Created');
                         return redirect()->to(base_url('admin/allClients'));
 
-
                 }   
-
-
 
             }
 
@@ -223,7 +218,7 @@ class ClientController extends AdminController
             } else {  //ELse update details
 
 
-                $model = new UserModel();
+                $model = new ClientModel();
 
                 $data = [
                     'u_id' => $id,
@@ -349,7 +344,7 @@ class ClientController extends AdminController
             } else {  //ELse update details
 
 
-                $model = new UserModel();
+                $model = new ClientModel();
 
 
                 $data = [

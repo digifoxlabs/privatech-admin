@@ -12,20 +12,37 @@ $routes->match(['get', 'post'],'clientAthentication/email', 'Home::login');
 $routes->get('send-fcm', 'FCMController::sendNotification');
 
 
-//FrontEnd Routes
+
+/**
+ * CLIENT ROUTES
+ */
+
+// Index Page
 $routes->get('/', 'Frontend\HomeController::index', ['filter' => 'noauthclient']);
+//Register
+$routes->match(['get', 'post'],'/register', 'Frontend\HomeController::register');
+//Check Client ::AJAX POST
+$routes->match(['get', 'post'],'check/client', 'Frontend\ClientAuthenticate::checkClient');
+
+//Option for Login
 $routes->get('/login', 'Frontend\HomeController::optionforLogin');
+
+//Login with password Page
 $routes->get('/login/password', 'Frontend\ClientAuthenticate::passwordLogin');
+//Login with OTP Page
 $routes->get('/login/otp', 'Frontend\ClientAuthenticate::otpLogin');
+
+//Login with Password Authenticate
+$routes->post('/loginClient', 'Frontend\ClientAuthenticate::authPassword');
 
 $routes->get('/privacy-policy', 'Frontend\HomeController::privacyPolicy');
 
-$routes->match(['get', 'post'],'/register', 'Frontend\HomeController::register');
 $routes->match(['get', 'post'],'/resetPassword', 'Frontend\HomeController::resetPassword');
 $routes->match(['get', 'post'],'/setNewPassword', 'Frontend\HomeController::setNewPassword');
 
-$routes->post('/loginClient', 'Frontend\ClientAuthenticate::authPassword');
 $routes->post('/loginClientOTP', 'Frontend\ClientAuthenticate::authOTP');
+
+//Default CLient Login
 $routes->match(['get', 'post'],'/login/client', 'Frontend\ClientAuthenticate::defaultClientLogin');
 
 
@@ -34,8 +51,7 @@ $routes->match(['get', 'post'],'/dashboard/setNewPassword', 'Frontend\HomeContro
 
 $routes->get('/client/logout', 'Frontend\ClientAuthenticate::logout');
 
-//AJAX POSTS
-$routes->match(['get', 'post'],'check/user', 'Frontend\ClientAuthenticate::check_user');
+
 
 //Profile Update by Client
 $routes->match(['get', 'post'],'/profile', 'Frontend\HomeController::profile', ['filter' => 'authclient']);

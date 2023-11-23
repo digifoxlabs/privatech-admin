@@ -10,8 +10,8 @@
         toastr.success('<?php echo $session->getFlashdata('success'); ?>')
         <?php elseif($session->getFlashdata('error')): ?>
         toastr.warning('<?php  foreach($session->getFlashdata('error') as $key => $value) {
-        echo "$key: $value"."</br>";
-        }  ?>');
+echo "$key: $value"."</br>";
+}  ?>');
         <?php endif; ?>
         </script>
 
@@ -50,22 +50,14 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
-                                    <div class="col-8">
-
-                                    </div>
-                                    <!-- /.col -->
-                                    <div class="col-4">
-                                        <button type="submit" class="btn btn-success btn-block btn-sm">Log In</button>
-
-                                    </div>
-                                    <!-- /.col -->
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-success btn-sm">Log In</button>
                                 </div>
-
 
                             </form>
 
                             <div class="social-auth-links text-center mb-2">
+                                <a href="<?= base_url('/register') ?>" class="btn btn-warning btn-sm">Register</a>
                                 <a href="<?= base_url('/') ?>" class="btn btn-primary btn-sm">Cancel</a>
                             </div>
                         </div>

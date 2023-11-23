@@ -9,6 +9,7 @@ use CodeIgniter\Validation\StrictRules\FormatRules;
 use CodeIgniter\Validation\StrictRules\Rules;
 
 use App\Validation\Userrules;
+use App\Validation\Clientrules;
 
 class Validation extends BaseConfig
 {
@@ -28,6 +29,7 @@ class Validation extends BaseConfig
         FileRules::class,
         CreditCardRules::class,
         Userrules::class,
+        Clientrules::class,
     ];
 
     /**
