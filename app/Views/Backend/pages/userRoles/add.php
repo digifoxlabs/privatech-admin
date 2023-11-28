@@ -51,7 +51,7 @@
 
                     <form role="form" action="<?php base_url('admin/users/Roles/new') ?>" method="post">
                         <div class="card-body">   
-                        <?php// echo validation_errors(); ?>
+                   
 
                         <span class="text-danger mb-1"><?= validation_show_error('role_name') ?></span>
                         <div class="form-group">
