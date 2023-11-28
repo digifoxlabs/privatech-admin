@@ -163,18 +163,9 @@ echo "$key: $value"."</br>";
                         <div class="col-sm-10">
                           <input type="number" class="form-control" name="mobile" value="<?php echo empty($client_data['mobile']) ? "" : $client_data['mobile'];?>" placeholder="10 digit mobile no">
                         </div>
-                      </div>               
+                      </div>              
 
-                      <div class="form-group row">
-                        <label for="inputName2" class="col-sm-2 col-form-label">User Type</label>
-                        <div class="col-sm-10">
-                        <select class="form-control" name="type">
-                            <option value="" selected>Select</option>
-                            <option value="client" <?= $client_data['user_type']=='client'?'selected':'' ?>  >CLIENT</option>
-                         </select>                                      
-                        </div>
-                      </div>         
-
+            
                       <div class="form-group row">
                         <label for="inputName2" class="col-sm-2 col-form-label">Status</label>
                         <div class="col-sm-10">

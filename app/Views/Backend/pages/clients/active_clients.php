@@ -122,9 +122,7 @@ $(document).ready(function() {
             }
         },
         columns: [{
-            mRender: function(data, type, full, meta) {
-                    return i++;
-                }
+                  data: "cl_id"
             },
             {
                 data: "name"
@@ -174,6 +172,14 @@ $(document).ready(function() {
 
         ],
         bFilter: true, // to display datatable search
+        "drawCallback": function(settings) {
+            var api = this.api();
+            var startIndex = api.context[0]._iDisplayStart;
+
+            api.column(0).nodes().each(function(cell, i) {
+                cell.innerHTML = startIndex + i + 1;
+            });
+        }
     });
 
 
@@ -182,39 +188,6 @@ $(document).ready(function() {
     });
 
 
-
-    // Handle the "Edit" button click event
-    $('#dataTable tbody').on('click', '.edit-button', function () {
-        var data = dataTable.row($(this).parents('tr')).data();
-        var edit_id = $(this).data('id');
-        var edit_name = $(this).data('name');
-        var edit_gender = $(this).data('gender');
-        var edit_email = $(this).data('email');
-        var edit_mobile = $(this).data('mobile');
-        var edit_type= $(this).data('type');
-        var edit_status= $(this).data('status');
-
-       $('#update_id').val(edit_id);
-       $('#idName').val(edit_name);
-       $('#idGender').val(edit_gender);
-       $('#idEmail').val(edit_email);
-       $('#idContact').val(edit_mobile);
-       $('#idStatus').val(edit_status);
-       $('#idType').val(edit_type);
-    });
-
-
-    
-    $('#modal-delete').on('show.bs.modal', function (event) {
-      var button = $(event.relatedTarget) // Button that triggered the modal
-      var todo_id = button.data('id')  
-      var todo_name = button.data('name')
-  
-      var modal = $(this)  
-      modal.find('.modal-body #del_id').val(todo_id)
-      modal.find('.modal-body #delName').text(todo_name)  
-
-    }); 
 
 
 

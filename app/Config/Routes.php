@@ -151,6 +151,18 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Backend'] ,static funct
     $routes->match(['get', 'post'], 'settings', 'SettingsController::index', ['filter' => 'authadmin']);
 
 
+    //Manager Users
+    $routes->get('users', 'UserController::employees', ['filter' => 'authadmin']);
+    $routes->post('users/ajaxCallAllUsers', 'UserController::ajaxCallAllUsers');
+    $routes->match(['get', 'post'],'users/add', 'UserController::addEmployee', ['filter' => 'authadmin']);
+    $routes->match(['get', 'post'],'users/update/(:alphanum)', 'UserController::updateEmployee/$1', ['filter' => 'authadmin']);
+    $routes->post('users/delete', 'UserController::delete', ['filter' => 'authadmin']);
+
+    //Manage User Roles
+    $routes->get('users/Roles', 'RoleController::index', ['filter' => 'authadmin']);
+    $routes->match(['get', 'post'],'users/Roles/new', 'RoleController::createRole', ['filter' => 'authadmin']);
+    $routes->match(['get','post'],'users/Roles/update/(:alphanum)', 'RoleController::updateRole/$1', ['filter'=>'authadmin']);
+    $routes->post('users/Roles/delete', 'RoleController::deleteRole', ['filter' => 'authadmin']);
 
 
 });

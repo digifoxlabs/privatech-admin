@@ -122,7 +122,7 @@ $(document).ready(function() {
             }
         },
         columns: [{
-                data: "u_id"
+                data: "cl_id"
             },
             {
                 data: "name"
@@ -153,7 +153,7 @@ $(document).ready(function() {
             },
             {
                 mRender: function(data, type, row) {
-                    return '<a href="<?= base_url('admin/clients/view') ?>' + '/' + row.u_id +
+                    return '<a href="<?= base_url('admin/clients/view') ?>' + '/' + row.cl_id +
                             '" class="btn btn-outline-info btn-xs" >VIEW</a>'
                 }
             },

@@ -54,7 +54,23 @@ class AdminController extends BaseController
         $builder->select('value');
         $builder->where('key', $key);
         return $builder->get()->getRow('value');
+    }
 
+
+    //Get Role Name by ID
+    public function roleNameByID($role){
+        $builder = $this->db->table("groups");
+        $builder->select('group_name');
+        $builder->where('g_id', $role);
+        return $builder->get()->getRow('group_name');
+    }
+
+    //Ger Role ID of User
+    public function userRoleID($user){
+        $builder = $this->db->table("user_group");
+        $builder->select('g_id');
+        $builder->where('u_id', $user);
+        return $builder->get()->getRow('g_id');
     }
 
 

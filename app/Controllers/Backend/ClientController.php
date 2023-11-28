@@ -56,7 +56,7 @@ class ClientController extends AdminController
         $data = array(            
             'client_id'=>$client_id,
             'subs_status'=>$this->getSubStatus($client_id),
-            'client_data'=>$ClientModel->where('u_id',$client_id)->first(),        
+            'client_data'=>$ClientModel->where('cl_id',$client_id)->first(),        
             'subscription_data'=>$subsModel->where('client_id',$client_id)->first(),        
             'txn_data'=>$txnModel->where('client_id',$client_id)->get()->getResultArray(),        
         
@@ -74,8 +74,8 @@ class ClientController extends AdminController
 
             $rules = [
                 'name' => 'required|trim',
-                'email' => 'required|trim|valid_email|is_unique[users.email]',
-                'mobile' => 'trim|min_length[10]|max_length[10]|required|numeric|is_unique[users.mobile]',  
+                'email' => 'required|trim|valid_email|is_unique[clients.email]',
+                'mobile' => 'trim|min_length[10]|max_length[10]|required|numeric|is_unique[clients.mobile]',  
                 'password' => 'trim|required|min_length[3]|max_length[255]',       
                 'passconf' => 'trim|required|min_length[3]|max_length[255]|matches[password]',       
                 'status'=> 'trim|required'
@@ -127,13 +127,12 @@ class ClientController extends AdminController
                     'mobile' => $this->request->getVar('mobile'),
                     'email' => $this->request->getVar('email'),
                     'gender'   => null,
-                    'user_type' => 'client',
-                    'created_by' =>  $logged_user,
                     'status' => $this->request->getVar('status'),   
-                    'password' => $this->request->getVar('password')                  
+                    'password' => $this->request->getVar('password'),                  
+                    'pass_raw' => $this->request->getVar('password')                  
                 ];
 
-                if( $logged_user)
+                if($logged_user)
                     $model->save($userData);
 
                 $lastUserID = $model->getInsertID();
@@ -184,9 +183,8 @@ class ClientController extends AdminController
 
             $rules = [
                 'name' => 'required|trim',
-                'email' => 'required|trim|valid_email|is_unique[users.email,u_id,'.$id.']',
-                'mobile' => 'trim|min_length[10]|max_length[10]|required|numeric|is_unique[users.mobile,u_id,'.$id.']',    
-                'type' => 'required|trim',  
+                'email' => 'required|trim|valid_email|is_unique[clients.email,cl_id,'.$id.']',
+                'mobile' => 'trim|min_length[10]|max_length[10]|required|numeric|is_unique[clients.mobile,cl_id,'.$id.']',    
                 'status' => 'required|trim',  
             ];
             $errors = [
@@ -221,11 +219,10 @@ class ClientController extends AdminController
                 $model = new ClientModel();
 
                 $data = [
-                    'u_id' => $id,
+                    'cl_id' => $id,
                     'name' => strtoupper($this->request->getVar('name')),
                     'email' => $this->request->getVar('email'),
                     'mobile' => $this->request->getVar('mobile'),
-                    'user_type' => $this->request->getVar('user_type'),
                     'status' => $this->request->getVar('status'),
                   
                 ];
@@ -348,8 +345,9 @@ class ClientController extends AdminController
 
 
                 $data = [
-                    'u_id' => $this->request->getVar('row_id'),                  
+                    'cl_id' => $this->request->getVar('row_id'),                  
                     'password' => $this->request->getVar('password'),                  
+                    'pass_row' => $this->request->getVar('password'),                  
                 ];
 
                 $model->save($data);
@@ -390,18 +388,16 @@ class ClientController extends AdminController
 
         if(!empty($search_value)){
           
-            $builder = $this->db->table('users');
-            $builder->select('u_id,name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = users.u_id AND subscriptions.client_id != "1" AND subscriptions.ends_on >= now() )) as subscription');
-            $builder->like('users.name', $search_value);
-            $builder->where('users.u_id !=', 1);
+            $builder = $this->db->table('clients');
+            $builder->select('cl_id,name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = clients.cl_id AND subscriptions.ends_on >= now() )) as subscription');
+            $builder->like('clients.name', $search_value);
             $query = $builder->get();
             $total_count = $query->getResult();           
             
             
-            $builder = $this->db->table('users');
-            $builder->select('u_id,name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = users.u_id AND subscriptions.client_id != "1" AND subscriptions.ends_on >= now() )) as subscription');
-            $builder->like('users.name', $search_value);
-            $builder->where('users.u_id !=', 1);
+            $builder = $this->db->table('clients');
+            $builder->select('cl_id,name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = clients.cl_id AND subscriptions.ends_on >= now() )) as subscription');
+            $builder->like('clients.name', $search_value);
             $builder->limit($start, $length);
             $query2 = $builder->get();
             $data = $query2->getResult();   
@@ -410,17 +406,15 @@ class ClientController extends AdminController
 
         else if(!empty($valueStatus)){
 
-                $builder = $this->db->table('users');
-                $builder->select('u_id,name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = users.u_id AND subscriptions.client_id != "1" AND subscriptions.ends_on >= now() )) as subscription');
-                $builder->where('users.u_id !=', 1);
+                $builder = $this->db->table('clients');
+                $builder->select('cl_id,name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = clients.cl_id AND subscriptions.ends_on >= now() )) as subscription');
                 $builder->where('status', $valueStatus);
                 $query = $builder->get();
                 $total_count = $query->getResult();           
                 
                 
-                $builder = $this->db->table('users');
-                $builder->select('u_id,name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = users.u_id AND subscriptions.client_id != "1" AND subscriptions.ends_on >= now() )) as subscription');
-                $builder->where('users.u_id !=', 1);
+                $builder = $this->db->table('clients');
+                $builder->select('cl_id,name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = clients.cl_id AND subscriptions.ends_on >= now() )) as subscription');
                 $builder->where('status', $valueStatus);
                 $builder->limit($start, $length);
                 $query2 = $builder->get();
@@ -433,16 +427,14 @@ class ClientController extends AdminController
         else{
 
                 // count all data
-                $builder = $this->db->table('users');
-                $builder->select('u_id, name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = users.u_id  AND subscriptions.status = 1 )) as subscription');
-                $builder->where('users.u_id !=', 1);
+                $builder = $this->db->table('clients');
+                $builder->select('cl_id,name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = clients.cl_id AND subscriptions.ends_on >= now() )) as subscription');
                 $query = $builder->get();
                 $total_count = $query->getResult();          
                 
                 
-                $builder = $this->db->table('users');
-                $builder->select('u_id, name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = users.u_id AND subscriptions.status = 1 )) as subscription');
-                $builder->where('users.u_id !=', 1);
+                $builder = $this->db->table('clients');
+                $builder->select('cl_id,name, mobile , email, status, (SELECT COUNT(*) FROM subscriptions WHERE (subscriptions.client_id = clients.cl_id AND subscriptions.ends_on >= now() )) as subscription');
                 $builder->limit($start, $length);
                 $query2 = $builder->get();
                 $data = $query2->getResult();   
@@ -485,25 +477,23 @@ class ClientController extends AdminController
         if(!empty($search_value)){
 
 
-            $builder = $this->db->table('users');
-            $builder->select('users.u_id,users.name, users.mobile , users.email, users.status, subscriptions.status as subscription');
-            $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-            $builder->like('users.name', $search_value);
-            $builder->where('users.u_id !=', 1);
+            $builder = $this->db->table('clients');
+            $builder->select('clients.cl_id,clients.name, clients.mobile , clients.email, clients.status, subscriptions.status as subscription');
+            $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
+            $builder->like('clients.name', $search_value);
             $builder->where('subscriptions.status', 1);
             $builder->where('subscriptions.ends_on >=', $today);
-            $builder->groupBy('users.u_id');
+            $builder->groupBy('clients.cl_id');
             $query = $builder->get();
             $total_count = $query->getResult();    
 
-            $builder = $this->db->table('users');
-            $builder->select('users.u_id,users.name, users.mobile , users.email, users.status, subscriptions.status as subscription');
-            $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-            $builder->like('users.name', $search_value);
-            $builder->where('users.u_id !=', 1);
+            $builder = $this->db->table('clients');
+            $builder->select('clients.cl_id,clients.name, clients.mobile , clients.email, clients.status, subscriptions.status as subscription');
+            $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
+            $builder->like('clients.name', $search_value);
             $builder->where('subscriptions.status', 1);
             $builder->where('subscriptions.ends_on >=', $today);
-            $builder->groupBy('users.u_id');
+            $builder->groupBy('clients.cl_id');
             $builder->limit($start, $length);
             $query2 = $builder->get();
             $data = $query2->getResult();   
@@ -512,25 +502,23 @@ class ClientController extends AdminController
 
         else if(!empty($valueStatus)){
 
-                $builder = $this->db->table('users');
-                $builder->select('users.u_id,users.name, users.mobile , users.email, users.status, subscriptions.status as subscription');
-                $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-                $builder->where('users.status', $valueStatus);
-                $builder->where('users.u_id !=', 1);
+                $builder = $this->db->table('clients');
+                $builder->select('clients.cl_id,clients.name, clients.mobile , clients.email, clients.status, subscriptions.status as subscription');
+                $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
+                $builder->where('clients.status', $valueStatus);
                 $builder->where('subscriptions.status', 1);
                 $builder->where('subscriptions.ends_on >=', $today);
-                $builder->groupBy('users.u_id');
+                $builder->groupBy('clients.cl_id');
                 $query = $builder->get();
                 $total_count = $query->getResult();    
     
-                $builder = $this->db->table('users');
-                $builder->select('users.u_id,users.name, users.mobile , users.email, users.status, subscriptions.status as subscription');
-                $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-                $builder->where('users.status', $valueStatus);
-                $builder->where('users.u_id !=', 1);
+                $builder = $this->db->table('clients');
+                $builder->select('clients.cl_id,clients.name, clients.mobile , clients.email, clients.status, subscriptions.status as subscription');
+                $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
+                $builder->where('clients.status', $valueStatus);
                 $builder->where('subscriptions.status', 1);
                 $builder->where('subscriptions.ends_on >=', $today);
-                $builder->groupBy('users.u_id');
+                $builder->groupBy('clients.cl_id');
                 $builder->limit($start, $length);
                 $query2 = $builder->get();
                 $data = $query2->getResult();  
@@ -542,25 +530,23 @@ class ClientController extends AdminController
         else{
                 // count all data
 
-                $builder = $this->db->table('users');
-                $builder->select('users.u_id,users.name, users.mobile , users.email, users.status, subscriptions.status as subscription');
-                $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-                $builder->where('users.u_id !=', 1);
+                $builder = $this->db->table('clients');
+                $builder->select('clients.cl_id,clients.name, clients.mobile , clients.email, clients.status, subscriptions.status as subscription');
+                $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');   
                 $builder->where('subscriptions.status', 1);
                 $builder->where('subscriptions.ends_on >=', $today);
-                $builder->groupBy('users.u_id');
+                $builder->groupBy('clients.cl_id');
                 $query = $builder->get();
                 $total_count = $query->getResult();    
 
 
 
-                $builder = $this->db->table('users');
-                $builder->select('users.u_id,users.name, users.mobile , users.email, users.status, subscriptions.status as subscription');
-                $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-                $builder->where('users.u_id !=', 1);
+                $builder = $this->db->table('clients');
+                $builder->select('clients.cl_id,clients.name, clients.mobile , clients.email, clients.status, subscriptions.status as subscription');
+                $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
                 $builder->where('subscriptions.status', 1);
                 $builder->where('subscriptions.ends_on >=', $today);
-                $builder->groupBy('users.u_id');
+                $builder->groupBy('clients.cl_id');
                 $builder->limit($start, $length);
                 $query2 = $builder->get();
                 $data = $query2->getResult();   
@@ -603,22 +589,20 @@ class ClientController extends AdminController
 
         if(!empty($search_value)){
 
-            $builder = $this->db->table('users');
-            $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-            $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-            $builder->like('users.name',$search_value);
-            $builder->where('users.u_id !=', 1);
+            $builder = $this->db->table('clients');
+            $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+            $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
+            $builder->like('clients.name',$search_value);
             $builder->where('subscriptions.status', 1);
             $builder->where('subscriptions.ends_on <', $today);
             $query = $builder->get();
             $total_count = $query->getResult();          
             
             
-            $builder = $this->db->table('users');
-            $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-            $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-            $builder->like('users.name',$search_value);
-            $builder->where('users.u_id !=', 1);
+            $builder = $this->db->table('clients');
+            $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+            $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
+            $builder->like('clients.name',$search_value);
             $builder->where('subscriptions.status', 1);
             $builder->where('subscriptions.ends_on <', $today);
             $builder->limit($start, $length);
@@ -631,22 +615,20 @@ class ClientController extends AdminController
         else if(!empty($valueStatus)){
 
 
-            $builder = $this->db->table('users');
-            $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-            $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-            $builder->where('users.status',$valueStatus);
-            $builder->where('users.u_id !=', 1);
+            $builder = $this->db->table('clients');
+            $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+            $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
+            $builder->where('clients.status',$valueStatus);
             $builder->where('subscriptions.status', 1);
             $builder->where('subscriptions.ends_on <', $today);
             $query = $builder->get();
             $total_count = $query->getResult();          
             
             
-            $builder = $this->db->table('users');
-            $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-            $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-            $builder->where('users.status',$valueStatus);
-            $builder->where('users.u_id !=', 1);
+            $builder = $this->db->table('clients');
+            $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+            $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
+            $builder->where('clients.status',$valueStatus);
             $builder->where('subscriptions.status', 1);
             $builder->where('subscriptions.ends_on <', $today);
             $builder->limit($start, $length);
@@ -659,20 +641,18 @@ class ClientController extends AdminController
         else {
                 // count all data       
 
-                    $builder = $this->db->table('users');
-                    $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-                    $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-                    $builder->where('users.u_id !=', 1);
+                $builder = $this->db->table('clients');
+                $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+                $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
                     $builder->where('subscriptions.status', 1);
                     $builder->where('subscriptions.ends_on <', $today);
                     $query = $builder->get();
                     $total_count = $query->getResult();          
                     
                     
-                    $builder = $this->db->table('users');
-                    $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-                    $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-                    $builder->where('users.u_id !=', 1);
+                    $builder = $this->db->table('clients');
+                    $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+                    $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
                     $builder->where('subscriptions.status', 1);
                     $builder->where('subscriptions.ends_on <', $today);
                     $builder->limit($start, $length);
@@ -719,21 +699,19 @@ class ClientController extends AdminController
         if(!empty($search_value)){
 
 
-            $builder = $this->db->table('users');
-            $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-            $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-            $builder->like('users.name', $search_value);
-            $builder->where('users.u_id !=', 1);
+            $builder = $this->db->table('clients');
+            $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+            $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
+            $builder->like('clients.name', $search_value);
             $builder->where('subscriptions.validity_days', null);
             $query = $builder->get();
             $total_count = $query->getResult();          
             
             
-            $builder = $this->db->table('users');
-            $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-            $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-            $builder->like('users.name', $search_value);
-            $builder->where('users.u_id !=', 1);
+            $builder = $this->db->table('clients');
+            $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+            $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
+            $builder->like('clients.name', $search_value);
             $builder->where('subscriptions.validity_days', null);
             $builder->limit($start, $length);
             $query2 = $builder->get();
@@ -745,21 +723,19 @@ class ClientController extends AdminController
         else if(!empty($valueStatus)){
 
 
-            $builder = $this->db->table('users');
-            $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-            $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-            $builder->where('users.status', $valueStatus);
-            $builder->where('users.u_id !=', 1);
+            $builder = $this->db->table('clients');
+            $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+            $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
+            $builder->where('clients.status', $valueStatus);
             $builder->where('subscriptions.validity_days', null);
             $query = $builder->get();
             $total_count = $query->getResult();          
             
             
-            $builder = $this->db->table('users');
-            $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-            $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-            $builder->where('users.status', $valueStatus);
-            $builder->where('users.u_id !=', 1);
+            $builder = $this->db->table('clients');
+            $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+            $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
+            $builder->where('clients.status', $valueStatus);
             $builder->where('subscriptions.validity_days', null);
             $builder->limit($start, $length);
             $query2 = $builder->get();
@@ -774,19 +750,17 @@ class ClientController extends AdminController
         else {
                 // count all data
         
-                $builder = $this->db->table('users');
-                $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-                $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-                $builder->where('users.u_id !=', 1);
+                $builder = $this->db->table('clients');
+                $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+                $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
                 $builder->where('subscriptions.validity_days', null);
                 $query = $builder->get();
                 $total_count = $query->getResult();          
                 
                 
-                $builder = $this->db->table('users');
-                $builder->select('users.u_id, users.name, users.mobile , users.email, users.status, 0 as subscription');
-                $builder->join('subscriptions', 'users.u_id = subscriptions.client_id', 'left');
-                $builder->where('users.u_id !=', 1);
+                $builder = $this->db->table('clients');
+                $builder->select('clients.cl_id, clients.name, clients.mobile , clients.email, clients.status, 0 as subscription');
+                $builder->join('subscriptions', 'clients.cl_id = subscriptions.client_id', 'left');
                 $builder->where('subscriptions.validity_days', null);
                 $builder->limit($start, $length);
                 $query2 = $builder->get();

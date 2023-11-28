@@ -50,10 +50,10 @@
 <?=script_tag('public/assets/common/plugins/jquery-ui/jquery-ui.min.js')?>
 
 
-<?= script_tag('public/assets/common/plugins/sweetalert2/sweetalert2.min.js') ?>
-    <!-- Toastr -->
-    <?= script_tag('public/assets/common/plugins/toastr/toastr.min.js') ?>
-
+[<?= script_tag('public/assets/common/plugins/sweetalert2/sweetalert2.min.js') ?>
+<!-- Toastr -->
+<?= script_tag('public/assets/common/plugins/toastr/toastr.min.js') ?>
+]
 
 
 <style> 

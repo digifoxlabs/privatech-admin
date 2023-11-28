@@ -143,6 +143,54 @@
                 </li>
 
 
+                <li class="nav-item has-treeview" id="employeeTree">
+
+                    <a href="#" class="nav-link" id="employeeMenu">
+               
+                    <i class="nav-icon fas fa-users"></i>
+                        <p>
+                        Manage Employees
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+
+
+                        <li class="nav-item">
+                            <a href="<?= base_url('admin/users'); ?>" class="nav-link"
+                                id="employeeSubMenuManage">
+                                <i class="far fa-circle nav-icon text-success"></i>
+                                <p>Manage Employees</p>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="<?= base_url('admin/users/Roles'); ?>" class="nav-link"
+                                id="employeeSubMenuRoles">
+                                <i class="far fa-circle nav-icon text-warning"></i>
+                                <p>User Roles</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <li class="nav-item">
                     <a href="<?= base_url('admin/settings') ?>" class="nav-link" id="settingsMenu">
