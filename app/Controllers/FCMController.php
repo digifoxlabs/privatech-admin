@@ -12,7 +12,8 @@ class FCMController extends Controller
     {
       // $firebase = (new Factory)->withServiceAccount(config('Firebase')->getFirebaseConfig());
       //$firebase = (new Factory)->withServiceAccount('../public/rts-security-fa478-firebase-adminsdk-88nor-c562f65ffc.json');
-      $firebase = (new Factory)->withServiceAccount($_ENV['GOOGLE_APPLICATION_CREDENTIALS']);
+     // $firebase = (new Factory)->withServiceAccount($_ENV['GOOGLE_APPLICATION_CREDENTIALS']);
+      $firebase = (new Factory)->withServiceAccount(ROOTPATH.$_ENV['GOOGLE_APPLICATION_CREDENTIALS']);
 
       $device_token = 'foara0OrT9iTXobyvdK70o:APA91bFIDvimDi_AHc_A0jl5PVzBd3Okkr4XXM8cR-2zE4m4K1PGWvcOuKeCBITYWwdlcS9iL9MX9W3tEoFDGdwcMDVWS2RnOqO5zgGFu8h4pEBbOh6cZbUliVInuLM49Vvh8TfbOIDa';
         $title = "Title";
@@ -24,7 +25,7 @@ class FCMController extends Controller
         $notification = [
         
         'title' => 'Hello',
-        'body' => 'AMLAN'
+        'body' => 'Good Morning'
 
         ];
 
