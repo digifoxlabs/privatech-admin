@@ -22,7 +22,8 @@ class HomeController extends FrontendController
     public function index(){
 
         $data = array( 
-            'pageTitle' => 'PRIVATECH'                                         
+            'pageTitle' => 'PRIVATECH',
+            'device' => 'deviceName'                                         
         );      
             
          $this->render_view('Frontend/pages/index',$data); 
@@ -173,7 +174,8 @@ class HomeController extends FrontendController
     public function dashboard(){
 
         $data = array( 
-            'pageTitle' => 'PRIVATECH-LOGIN'                                         
+            'pageTitle' => 'PRIVATECH-LOGIN',
+            'device' => 'deviceName',                                           
         );      
             
             $this->render_view('Frontend/pages/dashboard',$data); 

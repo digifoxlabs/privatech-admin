@@ -10,6 +10,16 @@ use Razorpay\Api\Api;
 
 class SubscriptionController extends FrontendController
 {
+
+    public function __construct(){
+        parent::__construct();
+        $this->db = db_connect();
+
+ 
+    }
+
+
+
     public function index()
     {
 
@@ -31,6 +41,7 @@ class SubscriptionController extends FrontendController
 
         $model = new PackageModel();
         $data = array(
+            'pageTitle' => 'PRIVATECH-SUBSCRIPTION',
             'packages'=>$model->get()->getResultArray(),
         );
         $this->render_view('Frontend/pages/subscription/packages',$data); 
@@ -44,6 +55,7 @@ class SubscriptionController extends FrontendController
             $packageModel= new PackageModel();
 
             $data = array(
+                'pageTitle' => 'PRIVATECH-SUBSCRIPTION',
                 'package'=>$packageModel->where('pck_id',$id)->first(),
             );
 
@@ -53,7 +65,10 @@ class SubscriptionController extends FrontendController
 
     //Pay Razorpay
     public function checkout(){
-
+        
+        $data = array(
+            'pageTitle' => 'PRIVATECH-SUBSCRIPTION',
+        );
 
         $api = new Api(getenv('RAZORPAY_KEY_ID'), getenv('RAZORPAY_KEY_SECRET'));
 

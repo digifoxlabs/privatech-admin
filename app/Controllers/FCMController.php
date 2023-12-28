@@ -24,8 +24,8 @@ class FCMController extends Controller
 
         $notification = [
         
-        'title' => 'Hello',
-        'body' => 'Good Morning'
+        'title' => 'Good Morning!',
+        'body' => 'Your device is secured'
 
         ];
 

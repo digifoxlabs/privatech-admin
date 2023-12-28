@@ -76,9 +76,7 @@
       <p class="mb-1">
    
       </p>
-      <p class="mb-0">
-        <a href="<?=base_url('register') ?>" class="text-center">Register a new membership</a>
-      </p>
+
     </div>
     <!-- /.login-card-body -->
   </div>
