@@ -55,7 +55,7 @@
                     <input type="hidden" name="row_id" value="<?= $group_id; ?>">
 
                         <div class="card-body">   
-                        <?php// echo validation_errors(); ?>
+                
 
                         <span class="text-danger mb-1"><?= validation_show_error('role_name') ?></span>
                         <div class="form-group">
